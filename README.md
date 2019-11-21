@@ -1,1 +1,1 @@
-# leroy-merlin-kiosk
+# leroy-kiosk
