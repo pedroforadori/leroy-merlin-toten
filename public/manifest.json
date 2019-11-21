@@ -1,4 +1,5 @@
 {
+  "prefer_related_applications": false,
   "short_name": "Leroy Kiosk",
   "name": "Leroy Merlin Kiosk",
   "icons": [
@@ -21,5 +22,7 @@
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "kiosk_enabled": true,
+  "kiosk_only": true
 }
