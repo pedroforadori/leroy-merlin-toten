@@ -1,6 +1,11 @@
 export const Types = {
+  GET_STORES_REQUEST: 'products/GET_STORES_REQUEST',
+  GET_STORES_SUCCESS: 'products/GET_STORES_SUCCESS',
+  GET_DEPARTMENTS_REQUEST: 'products/GET_DEPARTMENTS_REQUEST',
+  GET_DEPARTMENTS_SUCCESS: 'products/GET_DEPARTMENTS_SUCCESS',
   GET_CATEGORIES_REQUEST: 'products/GET_CATEGORIES_REQUEST',
   GET_CATEGORIES_SUCCESS: 'products/GET_CATEGORIES_SUCCESS',
+  SET_CATEGORIES: 'products/SET_CATEGORIES',
   GET_PRODUCTS_REQUEST: 'products/GET_PRODUCTS_REQUEST',
   GET_PRODUCTS_SUCCESS: 'products/GET_PRODUCTS_SUCCESS',
   GET_PRODUCT_DETAILS_REQUEST: 'products/GET_PRODUCT_DETAILS_REQUEST',
@@ -8,6 +13,10 @@ export const Types = {
 }
 
 const INITIAL_STATE = {
+  storeId: null,
+  departmentId: null,
+  stores: [],
+  departments: [],
   categories: [],
   products: [],
   productDetails: {},
@@ -16,6 +25,22 @@ const INITIAL_STATE = {
 
 export default function products(state = INITIAL_STATE, action) {
   switch (action.type) {
+    case Types.GET_STORES_REQUEST:
+      return { ...state, loading: true, departments: [], categories: [] }
+    case Types.GET_STORES_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        stores: action.data
+      }
+    case Types.GET_DEPARTMENTS_REQUEST:
+      return { ...state, loading: true, categories: [] }
+    case Types.GET_DEPARTMENTS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        departments: action.data
+      }
     case Types.GET_CATEGORIES_REQUEST:
       return { ...state, loading: true }
     case Types.GET_CATEGORIES_SUCCESS:
@@ -24,6 +49,8 @@ export default function products(state = INITIAL_STATE, action) {
         loading: false,
         categories: action.data
       }
+    case Types.SET_CATEGORIES:
+      return { ...state, categories: action.categories }
     case Types.GET_PRODUCTS_REQUEST:
       return { ...state, loading: true }
     case Types.GET_PRODUCTS_SUCCESS:
@@ -46,12 +73,33 @@ export default function products(state = INITIAL_STATE, action) {
 }
 
 export const Creators = {
-  getCategoriesRequest: () => ({
-    type: Types.GET_CATEGORIES_REQUEST
+  getStoresRequest: () => ({
+    type: Types.GET_STORES_REQUEST
+  }),
+  getStoresSuccess: data => ({
+    type: Types.GET_STORES_SUCCESS,
+    data
+  }),
+  getDepartmentsRequest: storeId => ({
+    type: Types.GET_DEPARTMENTS_REQUEST,
+    storeId
+  }),
+  getDepartmentsSuccess: data => ({
+    type: Types.GET_DEPARTMENTS_SUCCESS,
+    data
+  }),
+  getCategoriesRequest: (departmentId, filterSelected) => ({
+    type: Types.GET_CATEGORIES_REQUEST,
+    departmentId,
+    filterSelected
   }),
   getCategoriesSuccess: data => ({
     type: Types.GET_CATEGORIES_SUCCESS,
     data
+  }),
+  setCategories: categories => ({
+    type: Types.SET_CATEGORIES,
+    categories
   }),
   getProductsRequest: categoryId => ({
     type: Types.GET_PRODUCTS_REQUEST,

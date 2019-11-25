@@ -11,14 +11,18 @@ import { Creators as ProductsActions } from '../../store/ducks/products'
 
 import decoracaoImage from '../../mock/decoracao.png'
 
+import { getDepartmentId } from '../../services/auth'
+
 const Categories = () => {
   let history = useHistory()
+
+  if (!getDepartmentId()) history.push('/setup')
 
   const categories = useSelector(state => state.products.categories)
 
   const dispatch = useDispatch()
 
-  const redirectHome = () => history.push('/')
+  const redirectHome = () => history.push('/home')
 
   let redirectionDelay
 
@@ -44,7 +48,7 @@ const Categories = () => {
 
   useEffect(() => {
     startTimeout()
-    dispatch(ProductsActions.getCategoriesRequest())
+    dispatch(ProductsActions.getCategoriesRequest(getDepartmentId(), true))
   }, [dispatch, startTimeout])
 
   return (

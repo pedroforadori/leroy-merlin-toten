@@ -1,0 +1,24 @@
+@font-face {
+  font-family: 'Leroy Merlin Sans';
+  src: url('./../assets/fonts/LeroyMerlinSans-Web-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Leroy Merlin Sans';
+  src: url('./../assets/fonts/LeroyMerlinSans-Web-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Leroy Merlin Sans';
+  src: url('./../assets/fonts/LeroyMerlinSans-Web-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Leroy Merlin Sans';
+  src: url('./../assets/fonts/LeroyMerlinSans-Web-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import LogoIcon from '../../components/icons/LogoIcon'
+import LogoIcon from '../icons/LogoIcon'
 
 export default function Header(props) {
   return (

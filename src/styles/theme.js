@@ -1,6 +1,6 @@
 export default {
   primaryDefault: '#78BE20',
-  // primaryPressed: '#679E18',
+  primaryPressed: '#679E18',
   darkGreen: '#397615',
   lightGreen: '#D4EB8E',
   whiteGreen: '#F1F8EC',
@@ -20,7 +20,7 @@ export default {
   lightYellow: '#FFFCCF',
 
   textYellow: '#F6D835',
-  purple: '#AC488C',
+  purple: '#AC488C'
 
   // textSidebarDisabled: 'rgba(9, 30, 66, 0.5)',
   // borderGrayLight: 'rgba(200,208,218, 0.15)',
@@ -29,9 +29,4 @@ export default {
   // transparent: 'rgba(255, 255, 255, 0.001)',
   // shadowDefault: 'rgba(0, 0, 0, 0.15)',
   // shadowHover: 'rgba(0, 0, 0, 0.3)',
-
-  fontBold: '700',
-  fontSemibold: '600',
-  fontRegular: '400',
-  fontLight: '100'
 }

@@ -1,48 +1,69 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import CarouselTitle from '../../components/CarouselTitle';
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
+import CarouselTitle from '../../components/CarouselTitle'
 
-import { MainImage, Container, Category, DescriptionProduct, IdProduct, PriceProduct, PortionProduct } from './style'
+import {
+  MainImage,
+  Container,
+  Category,
+  DescriptionProduct,
+  IdProduct,
+  PriceProduct,
+  PortionProduct
+} from './style'
+import img from '../../img/photo.png'
 
+import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 
-import img from '../../img/photo.png'
-import Header from '../../components/Header';
+import { Creators as ProductsActions } from '../../store/ducks/products'
+
+import { getDepartmentId } from '../../services/auth'
+import { currencyDisplay } from '../../utils/currency'
 
 const Products = props => {
-    let history = useHistory()
+  let history = useHistory()
+  let { categoryId } = useParams()
 
-    const { text } = props;
+  if (!getDepartmentId()) history.push('/setup')
 
-    const categories = useSelector(state => state.products.categories)
+  const products = useSelector(state => state.products.products) // TODO REFACTOR
 
-    return (
-        <>
-        <Header/>
-            <CarouselTitle text={"Decore a Janela"}></CarouselTitle>
-            <Container>
-                {categories.map(category => (
-                    <Category
-                        src={img}
-                        key={category.name}
-                     onClick={() => history.push(`/categories/${category.id}/product/1`)}
-                    >
-                        <div>
-                            <DescriptionProduct>{category.name}</DescriptionProduct>
-                            <IdProduct>(Cod. 3423498274)</IdProduct>
-                            <PriceProduct> R$ 18,90 cada</PriceProduct>
-                            <PortionProduct>12x de R$ 3,15 sem juros</PortionProduct>
-                        </div>
+  const dispatch = useDispatch()
 
-                    </Category>
-                ))}
-            </Container>
+  useEffect(() => {
+    dispatch(ProductsActions.getProductsRequest(categoryId))
+  }, [categoryId, dispatch])
 
-            <Footer />
-        </>
-    )
+  return (
+    <>
+      <Header />
 
+      <CarouselTitle text={'Decore a Janela'}></CarouselTitle>
+
+      <Container>
+        {products.map(product => (
+          <Category
+            src={product.url || img}
+            key={product.id}
+            onClick={() => history.push(`/categories/${categoryId}/product/${product.id}`)}
+          >
+            <div>
+              <DescriptionProduct>
+                {product.shortTitle || 'Lixeira Inox Prata e Vermelho 4L Click'}
+              </DescriptionProduct>
+              <IdProduct>(Cod. {product.id || '9192332'})</IdProduct>
+              <PriceProduct>{currencyDisplay(product.price || 18.9)} cada</PriceProduct>
+              {/* <PortionProduct>12x de R$ 3,15 sem juros</PortionProduct> */}
+            </div>
+          </Category>
+        ))}
+      </Container>
+
+      <Footer />
+    </>
+  )
 }
 
 export default Products

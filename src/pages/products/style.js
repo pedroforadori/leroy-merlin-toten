@@ -23,42 +23,42 @@ export const Category = styled.div`
   box-sizing: border-box;
   padding-top: 10px;
 
-  div{
-      margin-left: 10px;
+  div {
+    margin-left: 10px;
   }
 `
 
 export const DescriptionProduct = styled.div`
-    font-size: 16px;
-    line-height: 19px;
-    padding-top: 250px;
-    /* cinza */
-    color: #666666;
+  font-size: 16px;
+  line-height: 19px;
+  padding-top: 250px;
+  /* cinza */
+  color: #666666;
 `
 
 export const IdProduct = styled.div`
-    color: #666666;
-    opacity: 0.6;
-    font-size: 12px;
-    line-height: 144%;
-    margin-top: 5px;
+  color: #666666;
+  opacity: 0.6;
+  font-size: 12px;
+  line-height: 144%;
+  margin-top: 5px;
 `
 
 export const PriceProduct = styled.div`
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 19px;
-    /* cinza */
-    color: #333333;
-    margin-top: 10px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 19px;
+  /* cinza */
+  color: #333333;
+  margin-top: 10px;
 `
 
 export const PortionProduct = styled.div`
-    font-style: normal;
-    font-weight: normal;
-    font-size: 12px;
-    line-height: 14px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 14px;
 
-    color: #666666;
-    `
+  color: #666666;
+`

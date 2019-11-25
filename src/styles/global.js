@@ -20,7 +20,7 @@ const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased !important;
     color: ${theme.textDefault};
     background-color: ${theme.white};
-    font-family: 'Segoe UI', sans-serif; /* Leroy Merlin Sans */
+    font-family: 'Leroy Merlin Sans';
     display: flex;
     flex-direction: column;
   }
