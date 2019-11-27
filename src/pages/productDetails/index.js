@@ -1,7 +1,6 @@
 import React, { useEffect, Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
-import Slider from "react-slick";
 
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
@@ -30,7 +29,6 @@ const ProductDetails = () => {
     dispatch(ProductsActions.getProductDetailsRequest(getStoreId(), productId))
   }, [dispatch, productId])
 
-  console.log('product',productDetails);
   return (
     <>
       <Header />
