@@ -64,7 +64,7 @@ const Products = props => {
                 R$
                 <span>
                   {
-                    currencyDisplay(product.prices[0] && product.prices[0].price, false).split(
+                    currencyDisplay(product.prices && product.prices.price, false).split(
                       ','
                     )[0]
                   }
@@ -72,7 +72,7 @@ const Products = props => {
                 <span>
                   ,
                   {
-                    currencyDisplay(product.prices[0] && product.prices[0].price, false).split(
+                    currencyDisplay(product.prices && product.prices.price, false).split(
                       ','
                     )[1]
                   }

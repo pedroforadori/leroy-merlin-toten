@@ -29,6 +29,7 @@ const ProductDetails = () => {
     dispatch(ProductsActions.getProductDetailsRequest(getStoreId(), productId))
   }, [dispatch, productId])
 
+  console.log('product',productDetails);
   return (
     <>
       <Header />
@@ -42,9 +43,11 @@ const ProductDetails = () => {
         </Title>
 
         <div>
-          <ImageProduct src={img}></ImageProduct>
+          <ImageProduct src={productDetails &&
+                              productDetails.pictures &&
+                                productDetails.pictures[0].url || img}
+          />
         </div>
-
         <Price>
           <h1>
             <span className="cifra">R$</span>
@@ -52,8 +55,8 @@ const ProductDetails = () => {
               {
                 currencyDisplay(
                   productDetails.prices &&
-                    productDetails.prices[0] &&
-                    productDetails.prices[0].price,
+                    productDetails.prices &&
+                    productDetails.prices.price,
                   false
                 ).split(',')[0]
               }
@@ -63,8 +66,8 @@ const ProductDetails = () => {
               {
                 currencyDisplay(
                   productDetails.prices &&
-                    productDetails.prices[0] &&
-                    productDetails.prices[0].price,
+                    productDetails.prices &&
+                    productDetails.prices.price,
                   false
                 ).split(',')[1]
               }
