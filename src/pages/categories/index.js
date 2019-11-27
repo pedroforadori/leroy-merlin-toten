@@ -11,12 +11,12 @@ import { Creators as ProductsActions } from '../../store/ducks/products'
 
 import decoracaoImage from '../../mock/decoracao.png'
 
-import { getDepartmentId } from '../../services/auth'
+import { getStoreId } from '../../services/auth'
 
 const Categories = () => {
   let history = useHistory()
 
-  if (!getDepartmentId()) history.push('/setup')
+  if (!getStoreId()) history.push('/setup')
 
   const categories = useSelector(state => state.products.categories)
 
@@ -48,7 +48,7 @@ const Categories = () => {
 
   useEffect(() => {
     startTimeout()
-    dispatch(ProductsActions.getCategoriesRequest(getDepartmentId(), true))
+    dispatch(ProductsActions.getCategoriesRequest(getStoreId(), true))
   }, [dispatch, startTimeout])
 
   return (
@@ -62,12 +62,18 @@ const Categories = () => {
       <Container>
         {categories.map(category => (
           <Category
-            src={category.imageUrl}
+            src={category.picture}
             key={category.name}
+<<<<<<< HEAD
             onClick={() => history.push(`/categories/${category.id}/${category.name}`)}
+=======
+            onClick={() => history.push(`/categories/${category._id}`)}
+>>>>>>> acfe787213bf4ee103ed1169a4cc7eb5c4220c93
           >
-            <div>{category.name}</div>
-            <div>{category.description}</div>
+            <div>
+              <div>{category.name}</div>
+              <div>{category.description}</div>
+            </div>
           </Category>
         ))}
       </Container>

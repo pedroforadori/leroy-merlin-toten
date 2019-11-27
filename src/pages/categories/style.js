@@ -39,17 +39,32 @@ export const Category = styled.div`
   background-size: cover;
   height: 198px;
   width: 198px;
+  border-radius: 8px;
 
-  div {
-    z-index: 1;
-    font-size: 24px;
-    font-weight: ${theme.fontBold};
-    color: ${theme.white};
-    text-align: center;
-    transition: all 0.2s ease;
+  > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 198px;
+    width: 198px;
+    background-color: ${theme.shadowHover};
+    border-radius: 8px;
 
-    :last-child {
-      font-size: 12px;
+    div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1;
+      font-size: 24px;
+      font-weight: ${theme.fontBold};
+      color: ${theme.white};
+      text-align: center;
+      transition: all 0.2s ease;
+
+      :last-child {
+        font-size: 12px;
+      }
     }
   }
 

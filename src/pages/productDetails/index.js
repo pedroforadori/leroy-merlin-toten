@@ -9,12 +9,11 @@ import GoBackLink from "../../components/GoBackLink";
 import { currencyDisplay } from "../../utils/currency";
 
 import { Title, MainPage, ImageProduct, Details, Price } from "./style";
-import img from "../../img/photo.png";
+import { getStoreId } from '../../services/auth'
 
-import { getDepartmentId } from "../../services/auth";
+import img from "../../img/sampler.png";
 
-import obj from "../../mock/product";
-import { format } from "path";
+  if (!getStoreId()) history.push('/setup')
 
 const ProductDetails = () => {
   let history = useHistory();

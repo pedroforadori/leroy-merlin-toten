@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import theme from '../../styles/theme'
 
@@ -23,4 +23,12 @@ export const Container = styled.button`
     background-color: ${theme.primaryPressed};
     border-color: ${theme.primaryPressed};
   }
+
+  ${({ fixed }) =>
+    fixed &&
+    css`
+      position: fixed;
+      bottom: 20px;
+      right: 40px;
+    `}
 `
