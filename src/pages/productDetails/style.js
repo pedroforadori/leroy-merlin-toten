@@ -44,7 +44,9 @@ export const Title = styled.div`
 `
 
 export const ImageProduct = styled.img`
-    align-items: flex-start;
+    max-width: 400px;
+    height: auto;
+    border-radius: 3px;
 `
 
 export const Price = styled.div`

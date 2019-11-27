@@ -13,7 +13,7 @@ import { currencyDisplay } from '../../utils/currency'
 import { Title, MainPage, ImageProduct, Details, Price } from './style'
 import { getStoreId } from '../../services/auth'
 
-import img from '../../img/sampler.png'
+import noImg from '../../img/sampler.png'
 
 const ProductDetails = () => {
   let history = useHistory()
@@ -32,46 +32,50 @@ const ProductDetails = () => {
   return (
     <>
       <Header />
-      <GoBackLink goBack>{categoryName || 'pagina anterior'}</GoBackLink>
+      <GoBackLink goBack>{categoryName || "pagina anterior"}</GoBackLink>
       <MainPage>
         <Title>
           <h2>{productDetails.name}</h2>
-          <p className="codProducty">(Cod:{productDetails.lm_leroy})</p>
+          <p className='codProducty'>(Cod:{productDetails.lm_leroy})</p>
           <h3>Sobre o produto</h3>
           <p>{productDetails.description}</p>
         </Title>
 
         <div>
-          <ImageProduct src={img}></ImageProduct>
+          <ImageProduct
+            src={
+              (productDetails &&
+                productDetails.pictures &&
+                productDetails.pictures[0].url) ||
+              noImg
+            }
+          />
         </div>
-
-        <Price>
-          <h1>
-            <span className="cifra">R$</span>
-            <span className="fristPrice">
-              {
-                currencyDisplay(
-                  productDetails.prices &&
-                    productDetails.prices[0] &&
-                    productDetails.prices[0].price,
-                  false
-                ).split(',')[0]
-              }
-              ,
-            </span>
-            <span className="secondPrice">
-              {
-                currencyDisplay(
-                  productDetails.prices &&
-                    productDetails.prices[0] &&
-                    productDetails.prices[0].price,
-                  false
-                ).split(',')[1]
-              }
-            </span>
-            <span className="unit"> / cada</span>
-          </h1>
-        </Price>
+        {productDetails.prices && productDetails.prices.price ? (
+          <Price>
+            <h1>
+              <span className='cifra'>R$</span>
+              <span className='fristPrice'>
+                {
+                  currencyDisplay(
+                    productDetails.prices && productDetails.prices.price,
+                    false
+                  ).split(",")[0]
+                }
+                ,
+              </span>
+              <span className='secondPrice'>
+                {
+                  currencyDisplay(
+                    productDetails.prices && productDetails.prices.price,
+                    false
+                  ).split(",")[1]
+                }
+              </span>
+              <span className='unit'> / cada</span>
+            </h1>
+          </Price>
+        ) : ''}
       </MainPage>
 
       <Details>
@@ -88,13 +92,13 @@ const ProductDetails = () => {
                   <p>{items.value}</p>
                 </div>
               </Fragment>
-            )
+            );
           })}
       </Details>
 
       <Footer />
     </>
-  )
+  );
 }
 
 export default ProductDetails

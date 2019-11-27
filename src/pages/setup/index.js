@@ -18,7 +18,6 @@ import {
   Categories,
   Grid,
   CheckItem,
-  ButtonWrapper,
   Wrapper,
   SelectAll,
   TitleInput,
