@@ -20,13 +20,13 @@ export default {
   lightYellow: '#FFFCCF',
 
   textYellow: '#F6D835',
-  purple: '#AC488C'
+  purple: '#AC488C',
 
   // textSidebarDisabled: 'rgba(9, 30, 66, 0.5)',
   // borderGrayLight: 'rgba(200,208,218, 0.15)',
   // borderGrayLighter: 'rgba(193, 187, 187, 0.8)',
   // borderGrayCollapse: 'rgba(193, 187, 187, 0.3)',
   // transparent: 'rgba(255, 255, 255, 0.001)',
-  // shadowDefault: 'rgba(0, 0, 0, 0.15)',
-  // shadowHover: 'rgba(0, 0, 0, 0.3)',
+  // shadowDefault: 'rgba(0, 0, 0, 0.15)'
+  shadowHover: 'rgba(0, 0, 0, 0.3)'
 }

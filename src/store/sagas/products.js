@@ -1,72 +1,68 @@
 import { retry, put } from 'redux-saga/effects'
-import { productsApi } from '../../services/api'
+import { storesApi, categoriesApi, productsApi } from '../../services/api'
 
 import { Creators as ProductActions } from '../ducks/products'
 
 import { getSelectedCategories } from '../../services/auth'
 
-import stores from '../../mock/stores'
-import categories from '../../mock/categories'
-import departments from '../../mock/departments'
+// import stores from '../../mock/stores'
+// import categories from '../../mock/categories'
+// import departments from '../../mock/departments'
 
 export function* getStores() {
   try {
-    // const response = yield retry(10, 5000, productsApi.get, `/stores`)
+    const response = yield retry(10, 2000, storesApi.get)
 
-    let response = { data: '' }
-
-    yield put(
-      ProductActions.getStoresSuccess(
-        response.data || stores.map(store => ({ ...store, label: store.name, value: store.name }))
-      )
-    )
+    yield put(ProductActions.getStoresSuccess(response.data))
   } catch (err) {
     console.log(err)
   }
 }
 
-export function* getDepartments(action) {
-  try {
-    // const response = yield retry(10, 5000, productsApi.get, `/departments/${action.storeId}`)
+// export function* getDepartments(action) {
+//   try {
+//     // const response = yield retry(10, 5000, productsApi.get, `/departments/${action.storeId}`)
 
-    let response = { data: '' }
+//     let response = { data: '' }
 
-    yield put(
-      ProductActions.getDepartmentsSuccess(
-        response.data ||
-          departments
-            .filter(department => department.storeId === action.storeId)
-            .map(department => ({
-              ...department,
-              label: department.name,
-              value: department.name
-            }))
-      )
-    )
-  } catch (err) {
-    console.log(err)
-  }
-}
+//     yield put(
+//       ProductActions.getDepartmentsSuccess(
+//         response.data ||
+//           departments
+//             .filter(department => department.storeId === action.storeId)
+//             .map(department => ({
+//               ...department,
+//               label: department.name,
+//               value: department.name
+//             }))
+//       )
+//     )
+//   } catch (err) {
+//     console.log(err)
+//   }
+// }
 
 export function* getCategories(action) {
   try {
-    // const response = yield retry(10, 5000, productsApi.get, `/categories/${action.departmentId}`)
+    const response = yield retry(10, 2000, categoriesApi.get)
 
-    let response = { data: '' }
+    // let response = { data: '' }
 
-    let categoriesMock = categories.filter(
-      category => category.departmentId === action.departmentId
-    )
+    // let categoriesMock = categories.filter(
+    //   category => category.departmentId === action.departmentId
+    // )
+
+    let filteredCategories
 
     if (action.filterSelected) {
       const selectedCategories = getSelectedCategories()
 
-      categoriesMock = categoriesMock.filter(category =>
-        selectedCategories.find(selectedCategory => selectedCategory.id === category.id)
+      filteredCategories = response.data.data.filter(category =>
+        selectedCategories.find(selectedCategory => selectedCategory.id === category._id)
       )
     }
 
-    yield put(ProductActions.getCategoriesSuccess(response.data || categoriesMock))
+    yield put(ProductActions.getCategoriesSuccess(filteredCategories || response.data.data))
   } catch (err) {
     console.log(err)
   }
@@ -76,7 +72,7 @@ export function* getProducts(action) {
   try {
     const response = yield retry(
       10,
-      5000,
+      2000,
       productsApi.get,
       '/'
       // {

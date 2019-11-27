@@ -19,16 +19,16 @@ import Footer from '../../components/Footer'
 
 import { Creators as ProductsActions } from '../../store/ducks/products'
 
-import { getDepartmentId } from '../../services/auth'
+import { getStoreId } from '../../services/auth'
 import { currencyDisplay } from '../../utils/currency'
 
 const Products = props => {
   let history = useHistory()
   let { categoryId } = useParams()
 
-  if (!getDepartmentId()) history.push('/setup')
+  if (!getStoreId()) history.push('/setup')
 
-  const products = useSelector(state => state.products.products) // TODO REFACTOR
+  const products = useSelector(state => state.products.products)
 
   const dispatch = useDispatch()
 

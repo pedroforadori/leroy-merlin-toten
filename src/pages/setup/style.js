@@ -34,7 +34,7 @@ export const selectStyle = {
 
 export const Container = styled.div`
   width: 100%;
-  padding: 0 40px 40px;
+  padding: 0 40px 80px;
 `
 
 export const Filters = styled.div`

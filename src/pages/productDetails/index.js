@@ -7,12 +7,12 @@ import Footer from '../../components/Footer'
 import { Title, MainPage, IdProduct, ImageProduct, About, Details, Price } from './style'
 import img from '../../img/photo.png'
 
-import { getDepartmentId } from '../../services/auth'
+import { getStoreId } from '../../services/auth'
 
 const ProductDetails = () => {
   let history = useHistory()
 
-  if (!getDepartmentId()) history.push('/setup')
+  if (!getStoreId()) history.push('/setup')
 
   return (
     <>

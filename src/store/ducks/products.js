@@ -1,6 +1,7 @@
 export const Types = {
   GET_STORES_REQUEST: 'products/GET_STORES_REQUEST',
   GET_STORES_SUCCESS: 'products/GET_STORES_SUCCESS',
+  SET_STORE_ID: 'products/SET_STORE_ID',
   GET_DEPARTMENTS_REQUEST: 'products/GET_DEPARTMENTS_REQUEST',
   GET_DEPARTMENTS_SUCCESS: 'products/GET_DEPARTMENTS_SUCCESS',
   GET_CATEGORIES_REQUEST: 'products/GET_CATEGORIES_REQUEST',
@@ -14,10 +15,11 @@ export const Types = {
 
 const INITIAL_STATE = {
   storeId: null,
-  departmentId: null,
+  // departmentId: null,
   stores: [],
-  departments: [],
+  // departments: [],
   categories: [],
+  categoriesSelected: [],
   products: [],
   productDetails: {},
   loading: true
@@ -26,21 +28,23 @@ const INITIAL_STATE = {
 export default function products(state = INITIAL_STATE, action) {
   switch (action.type) {
     case Types.GET_STORES_REQUEST:
-      return { ...state, loading: true, departments: [], categories: [] }
+      return { ...state, loading: true }
     case Types.GET_STORES_SUCCESS:
       return {
         ...state,
         loading: false,
         stores: action.data
       }
-    case Types.GET_DEPARTMENTS_REQUEST:
-      return { ...state, loading: true, categories: [] }
-    case Types.GET_DEPARTMENTS_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        departments: action.data
-      }
+    case Types.SET_STORE_ID:
+      return { ...state, storeId: action.storeId }
+    // case Types.GET_DEPARTMENTS_REQUEST:
+    //   return { ...state, loading: true, categories: [] }
+    // case Types.GET_DEPARTMENTS_SUCCESS:
+    //   return {
+    //     ...state,
+    //     loading: false,
+    //     departments: action.data
+    //   }
     case Types.GET_CATEGORIES_REQUEST:
       return { ...state, loading: true }
     case Types.GET_CATEGORIES_SUCCESS:
@@ -80,6 +84,10 @@ export const Creators = {
     type: Types.GET_STORES_SUCCESS,
     data
   }),
+  setStoreId: storeId => ({
+    type: Types.SET_STORE_ID,
+    storeId
+  }),
   getDepartmentsRequest: storeId => ({
     type: Types.GET_DEPARTMENTS_REQUEST,
     storeId
@@ -88,9 +96,9 @@ export const Creators = {
     type: Types.GET_DEPARTMENTS_SUCCESS,
     data
   }),
-  getCategoriesRequest: (departmentId, filterSelected) => ({
+  getCategoriesRequest: (storeId, filterSelected) => ({
     type: Types.GET_CATEGORIES_REQUEST,
-    departmentId,
+    storeId,
     filterSelected
   }),
   getCategoriesSuccess: data => ({

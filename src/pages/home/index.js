@@ -15,12 +15,12 @@ import home2Portrait from '../../assets/images/home2_portrait.png'
 import theme from '../../styles/theme'
 import { Image } from './style'
 
-import { getDepartmentId } from '../../services/auth'
+import { getStoreId } from '../../services/auth'
 
 const Home = () => {
   let history = useHistory()
 
-  if (!getDepartmentId()) history.push('/setup')
+  if (!getStoreId()) history.push('/setup')
 
   const handleClick = useCallback(() => {
     history.push('/categories')
