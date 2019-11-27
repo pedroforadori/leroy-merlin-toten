@@ -4,18 +4,19 @@ import { useHistory, useParams } from 'react-router-dom'
 import CarouselTitle from '../../components/CarouselTitle'
 
 import {
-  MainImage,
   Container,
   Category,
   DescriptionProduct,
   IdProduct,
   PriceProduct,
+  BoxDecription,
   PortionProduct
 } from './style'
-import img from '../../img/photo.png'
+import img from '../../img/sampler.png'
 
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
+import ProductImg from '../../components/ProductImg'
 
 import { Creators as ProductsActions } from '../../store/ducks/products'
 
@@ -39,24 +40,28 @@ const Products = props => {
   return (
     <>
       <Header />
-
       <CarouselTitle text={'Decore a Janela'}></CarouselTitle>
 
       <Container>
         {products.map(product => (
           <Category
-            src={product.url || img}
             key={product.id}
             onClick={() => history.push(`/categories/${categoryId}/product/${product.id}`)}
           >
-            <div>
+            <ProductImg src={product.pictures[0] || img} />
+            <BoxDecription>
               <DescriptionProduct>
-                {product.shortTitle || 'Lixeira Inox Prata e Vermelho 4L Click'}
+                <p>{product.name || 'Sample Title'}</p>
               </DescriptionProduct>
-              <IdProduct>(Cod. {product.id || '9192332'})</IdProduct>
-              <PriceProduct>{currencyDisplay(product.price || 18.9)} cada</PriceProduct>
+              <IdProduct>(Cod. {product.lm_leroy || '9192332'})</IdProduct>
+              <PriceProduct>
+                {' '}
+                R$ <span>{currencyDisplay(product.prices || 18.9, false).split(',')[0]}</span>
+                <span>,{currencyDisplay(product.prices || 18.9, false).split(',')[1]}</span>
+                <span>cada</span>{' '}
+              </PriceProduct>
               {/* <PortionProduct>12x de R$ 3,15 sem juros</PortionProduct> */}
-            </div>
+            </BoxDecription>
           </Category>
         ))}
       </Container>

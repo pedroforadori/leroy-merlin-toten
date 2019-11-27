@@ -6,5 +6,5 @@ export const Description = styled.h2`
     font-size: 32px;
     line-height: 38px;
     color: #333333;
-    margin: 47px auto 41px 3.85%;
+    margin: 47px auto 26px 3.85%;
 `
