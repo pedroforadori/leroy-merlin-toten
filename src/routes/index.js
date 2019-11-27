@@ -22,11 +22,11 @@ const Routes = () => {
         <Categories />
       </Route>
 
-      <Route exact path="/categories/:categoryId">
+      <Route exact path="/categories/:categoryId/:categoryName">
         <Products />
       </Route>
 
-      <Route exact path="/categories/:categoryId/product/:productId">
+      <Route exact path="/categories/:categoryId/:categoryName/product/:productId">
         <ProductDetails />
       </Route>
 

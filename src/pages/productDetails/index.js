@@ -1,80 +1,73 @@
-import React from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { Fragment } from "react";
+import { useHistory, useParams } from "react-router-dom";
+import { useSelector } from 'react-redux'; 
 
-import Header from '../../components/Header'
-import Footer from '../../components/Footer'
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
+import GoBackLink from "../../components/GoBackLink";
 
-import { Title, MainPage, IdProduct, ImageProduct, About, Details, Price } from './style'
-import img from '../../img/photo.png'
+import { currencyDisplay } from "../../utils/currency";
 
+import { Title, MainPage, ImageProduct, Details, Price } from "./style";
 import { getStoreId } from '../../services/auth'
 
-const ProductDetails = () => {
-  let history = useHistory()
+import img from "../../img/sampler.png";
 
   if (!getStoreId()) history.push('/setup')
 
+const ProductDetails = () => {
+  let history = useHistory();
+  const {categoryName } = useParams()
+  if (!getDepartmentId()) history.push("/setup");  
+  
   return (
     <>
       <Header />
-
+      <GoBackLink goBack >
+        {categoryName || 'pagina anterior'}
+      </GoBackLink>
       <MainPage>
         <Title>
-          Lixeira para Pia de Cozinha Inox Prata e Vermelho 4L Click
-          <div>(Cod: 9192332)</div>
-          <About>
-            Sobre o produto
-            <div>
-              <p>- Contrary to popular belief, Lorem Ipsum is not; </p>
-              <p>- It has roots in a piece of classical Latin; </p>
-              <p>- Contrary to popular belief, Lorem Ipsum is not; </p>
-              <p>- It has roots in a piece of classical Latin; </p>
-              <p>- It has roots in a piece of classical Latin;</p>
-            </div>
-          </About>
+          <h2>{obj[0].name}</h2>
+          <p className='codProducty'>(Cod:{obj[0].lm_leroy})</p>
+          <h3>Sobre o produto</h3>
+          <p>{obj[0].description}</p>
         </Title>
-
-        <ImageProduct src={img}></ImageProduct>
+        <div>
+          <ImageProduct src={img}></ImageProduct>
+        </div>
+        <Price>
+          <h1>
+            <span className='cifra'>R$</span>
+            <span className='fristPrice'>
+              {currencyDisplay(obj[0].prices[0].price, false).split(",")[0]},
+            </span>
+            <span className='secondPrice'>
+              {currencyDisplay(obj[0].prices[0].price, false).split(",")[1]}
+            </span>
+            <span className='unit'> / cada</span>
+          </h1>
+        </Price>
       </MainPage>
-      <Price>
-        R$ 18,90 / cada
-        <div>12x juros no cartão</div>
-      </Price>
       <Details>
-        Características Técnicas
-        <p>
-          <strong>Produto</strong>....................................................Produto
-        </p>
-        <p>
-          <strong>Material da Porta do Bo</strong> ........................Material da Porta do Bo
-        </p>
-        <p>
-          <strong>Tipo de Abertura</strong> ....................................Tipo de Abertura
-        </p>
-        <p>
-          <strong>Cor</strong> ...........................................................Cor
-        </p>
-        <p>
-          <strong>Altura</strong> ......................................................Altura
-        </p>
-        <p>
-          <strong>Largura</strong> ....................................................Largura
-        </p>
-        <p>
-          <strong>Dimensão</strong>................................................. Dimensão
-        </p>
-        <p>
-          <strong>Característica Adicional</strong> .........................Característica
-          Adicional
-        </p>
-        <p>
-          <strong>Marca</strong>....................................................... Marca
-        </p>
+        <h3>Características Técnicas</h3>
+        {obj[0].attributes.map((items, index) => {
+          return (
+            <Fragment key={items.name + index}>
+              <div>
+                <p>{items.name}</p>
+              </div>
+              <div>
+                <p>{items.value}</p>
+              </div>
+            </Fragment>
+          );
+        })}
       </Details>
 
       <Footer />
     </>
-  )
-}
+  );
+};
 
-export default ProductDetails
+export default ProductDetails;

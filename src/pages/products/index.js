@@ -17,6 +17,7 @@ import img from '../../img/sampler.png'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import ProductImg from '../../components/ProductImg'
+import GoBackLink from '../../components/GoBackLink'
 
 import { Creators as ProductsActions } from '../../store/ducks/products'
 
@@ -30,6 +31,7 @@ const Products = props => {
   if (!getStoreId()) history.push('/setup')
 
   const products = useSelector(state => state.products.products)
+  const departmentName = useSelector(state => state.products.departmentName)
 
   const dispatch = useDispatch()
 
@@ -40,25 +42,42 @@ const Products = props => {
   return (
     <>
       <Header />
+      <GoBackLink goBack>{departmentName || 'Decoração'}</GoBackLink>
+
       <CarouselTitle text={categoryName}></CarouselTitle>
 
       <Container>
         {products.map(product => (
           <Category
             key={product.id}
-            onClick={() => history.push(`/categories/${categoryId}/product/${product.id}`)}
+            onClick={() =>
+              history.push(`/categories/${categoryId}/${categoryName}/product/${product._id}`)
+            }
           >
-            <ProductImg src={product.pictures[0] || img} />
+            <ProductImg src={product.pictures[0].url || img} />
             <BoxDecription>
               <DescriptionProduct>
                 <p>{product.name || 'Sample Title'}</p>
               </DescriptionProduct>
               <IdProduct>(Cod. {product.lm_leroy || '9192332'})</IdProduct>
               <PriceProduct>
-                {' '}
-                R$ <span>{currencyDisplay(product.prices || 18.9, false).split(',')[0]}</span>
-                <span>,{currencyDisplay(product.prices || 18.9, false).split(',')[1]}</span>
-                <span>cada</span>{' '}
+                R$
+                <span>
+                  {
+                    currencyDisplay(product.prices[0] && product.prices[0].price, false).split(
+                      ','
+                    )[0]
+                  }
+                </span>
+                <span>
+                  ,
+                  {
+                    currencyDisplay(product.prices[0] && product.prices[0].price, false).split(
+                      ','
+                    )[1]
+                  }
+                </span>
+                <span>cada</span>
               </PriceProduct>
               {/* <PortionProduct>12x de R$ 3,15 sem juros</PortionProduct> */}
             </BoxDecription>
