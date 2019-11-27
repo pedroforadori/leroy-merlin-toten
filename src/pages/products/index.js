@@ -25,7 +25,7 @@ import { currencyDisplay } from '../../utils/currency'
 
 const Products = props => {
   let history = useHistory()
-  let { categoryId } = useParams()
+  let { categoryId, categoryName } = useParams()
 
   if (!getStoreId()) history.push('/setup')
 
@@ -34,13 +34,13 @@ const Products = props => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(ProductsActions.getProductsRequest(categoryId))
+    dispatch(ProductsActions.getProductsRequest(getStoreId(), categoryId))
   }, [categoryId, dispatch])
 
   return (
     <>
       <Header />
-      <CarouselTitle text={'Decore a Janela'}></CarouselTitle>
+      <CarouselTitle text={categoryName}></CarouselTitle>
 
       <Container>
         {products.map(product => (
