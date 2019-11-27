@@ -109,16 +109,18 @@ export const Creators = {
     type: Types.SET_CATEGORIES,
     categories
   }),
-  getProductsRequest: categoryId => ({
+  getProductsRequest: (storeId, categoryId) => ({
     type: Types.GET_PRODUCTS_REQUEST,
+    storeId,
     categoryId
   }),
   getProductsSuccess: data => ({
     type: Types.GET_PRODUCTS_SUCCESS,
     data
   }),
-  getProductDetailsRequest: productId => ({
+  getProductDetailsRequest: (storeId, productId) => ({
     type: Types.GET_PRODUCT_DETAILS_REQUEST,
+    storeId,
     productId
   }),
   getProductDetailsSuccess: data => ({

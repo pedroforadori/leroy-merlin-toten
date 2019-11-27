@@ -64,7 +64,7 @@ const Categories = () => {
           <Category
             src={category.picture}
             key={category.name}
-            onClick={() => history.push(`/categories/${category.id}/${category.name}`)}
+            onClick={() => history.push(`/categories/${category._id}/${category.name}`)}
           >
             <div>
               <div>{category.name}</div>

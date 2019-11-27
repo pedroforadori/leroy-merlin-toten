@@ -74,14 +74,14 @@ export function* getProducts(action) {
   try {
     const payload = {
       store_id: action.storeId,
-      category: action.categoryId
+      categories: action.categoryId
     }
 
     const qs = querystring.stringify(payload, { addQueryPrefix: true })
 
-    const response = yield retry(10, 2000, productsApi.get, '', qs)
+    const response = yield retry(10, 2000, productsApi.get, `/products${qs}`)
 
-    yield put(ProductActions.getProductsSuccess(response.data))
+    yield put(ProductActions.getProductsSuccess(response.data.data))
   } catch (err) {
     console.log(err)
   }
@@ -89,7 +89,13 @@ export function* getProducts(action) {
 
 export function* getProductDetails(action) {
   try {
-    const response = yield retry(10, 5000, productsApi.get, `/${action.productId}`)
+    const payload = {
+      store_id: action.storeId
+    }
+
+    const qs = querystring.stringify(payload, { addQueryPrefix: true })
+
+    const response = yield retry(10, 2000, productsApi.get, `/products/${action.productId}${qs}`)
 
     yield put(ProductActions.getProductDetailsSuccess(response.data))
   } catch (err) {

@@ -70,7 +70,7 @@ const Setup = () => {
   const handleSelectStore = selection => {
     if (selection._id === storeId) return
 
-    dispatch(ProductsActions.setStoreId(selection._id))
+    dispatch(ProductsActions.setStoreId(selection.store_id))
     // setDepartment({})
     // toggleSelectAll(false)
     // dispatch(ProductsActions.getDepartmentsRequest(selection.id))

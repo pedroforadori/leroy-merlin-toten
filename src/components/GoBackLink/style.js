@@ -1,9 +1,9 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
-import theme from "../../styles/theme";
+import theme from '../../styles/theme'
 
 export const Container = styled.div`
-  display: inline-block;
+  display: flex;
   margin: 0 0 25px 44px;
 
   span {

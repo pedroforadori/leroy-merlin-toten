@@ -14,18 +14,19 @@ export const Container = styled.div`
 export const Category = styled.div`
   display: flex;
   flex-direction: column;
-  align-items:center;
+  align-items: center;
   height: 432px;
   width: 239px;
   border: 1px solid ${theme.darkGray};
   box-sizing: border-box;
   padding: 10px;
+  border-radius: 8px;
 `
 
 export const BoxDecription = styled.div`
-  display:flex;
-  flex-direction:column;
-  width:100%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 `
 
 export const DescriptionProduct = styled.div`
@@ -34,11 +35,11 @@ export const DescriptionProduct = styled.div`
   margin-top: 14px;
   /* cinza */
   color: #666666;
-  min-height:57px;
-  
+  min-height: 57px;
+
   display: -webkit-box;
   -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;  
+  -webkit-box-orient: vertical;
   overflow: hidden;
 `
 
@@ -58,21 +59,21 @@ export const PriceProduct = styled.div`
   /* cinza */
   color: #333333;
   margin-top: 15px;
-  position:relative;
+  position: relative;
 
   span {
     font-size: 24px;
   }
 
   span:nth-of-type(2) {
-    position:absolute;
+    position: absolute;
     font-size: 12px;
-    top:-5px;
+    top: -5px;
   }
 
   span:nth-of-type(3) {
     font-size: 14px;
-    margin-left:20px;
+    margin-left: 20px;
   }
 `
 

@@ -1,73 +1,100 @@
-import React, { Fragment } from "react";
-import { useHistory, useParams } from "react-router-dom";
-import { useSelector } from 'react-redux'; 
+import React, { useEffect, Fragment } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useHistory, useParams } from 'react-router-dom'
 
-import Header from "../../components/Header";
-import Footer from "../../components/Footer";
-import GoBackLink from "../../components/GoBackLink";
+import Header from '../../components/Header'
+import Footer from '../../components/Footer'
+import GoBackLink from '../../components/GoBackLink'
 
-import { currencyDisplay } from "../../utils/currency";
+import { Creators as ProductsActions } from '../../store/ducks/products'
 
-import { Title, MainPage, ImageProduct, Details, Price } from "./style";
+import { currencyDisplay } from '../../utils/currency'
+
+import { Title, MainPage, ImageProduct, Details, Price } from './style'
 import { getStoreId } from '../../services/auth'
 
-import img from "../../img/sampler.png";
+import img from '../../img/sampler.png'
+
+const ProductDetails = () => {
+  let history = useHistory()
+  const { productId, categoryName } = useParams()
 
   if (!getStoreId()) history.push('/setup')
 
-const ProductDetails = () => {
-  let history = useHistory();
-  const {categoryName } = useParams()
-  if (!getDepartmentId()) history.push("/setup");  
-  
+  const productDetails = useSelector(state => state.products.productDetails)
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(ProductsActions.getProductDetailsRequest(getStoreId(), productId))
+  }, [dispatch, productId])
+
   return (
     <>
       <Header />
-      <GoBackLink goBack >
-        {categoryName || 'pagina anterior'}
-      </GoBackLink>
+      <GoBackLink goBack>{categoryName || 'pagina anterior'}</GoBackLink>
       <MainPage>
         <Title>
-          <h2>{obj[0].name}</h2>
-          <p className='codProducty'>(Cod:{obj[0].lm_leroy})</p>
+          <h2>{productDetails.name}</h2>
+          <p className="codProducty">(Cod:{productDetails.lm_leroy})</p>
           <h3>Sobre o produto</h3>
-          <p>{obj[0].description}</p>
+          <p>{productDetails.description}</p>
         </Title>
+
         <div>
           <ImageProduct src={img}></ImageProduct>
         </div>
+
         <Price>
           <h1>
-            <span className='cifra'>R$</span>
-            <span className='fristPrice'>
-              {currencyDisplay(obj[0].prices[0].price, false).split(",")[0]},
+            <span className="cifra">R$</span>
+            <span className="fristPrice">
+              {
+                currencyDisplay(
+                  productDetails.prices &&
+                    productDetails.prices[0] &&
+                    productDetails.prices[0].price,
+                  false
+                ).split(',')[0]
+              }
+              ,
             </span>
-            <span className='secondPrice'>
-              {currencyDisplay(obj[0].prices[0].price, false).split(",")[1]}
+            <span className="secondPrice">
+              {
+                currencyDisplay(
+                  productDetails.prices &&
+                    productDetails.prices[0] &&
+                    productDetails.prices[0].price,
+                  false
+                ).split(',')[1]
+              }
             </span>
-            <span className='unit'> / cada</span>
+            <span className="unit"> / cada</span>
           </h1>
         </Price>
       </MainPage>
+
       <Details>
         <h3>Características Técnicas</h3>
-        {obj[0].attributes.map((items, index) => {
-          return (
-            <Fragment key={items.name + index}>
-              <div>
-                <p>{items.name}</p>
-              </div>
-              <div>
-                <p>{items.value}</p>
-              </div>
-            </Fragment>
-          );
-        })}
+        {productDetails &&
+          productDetails.attributes &&
+          productDetails.attributes.map((items, index) => {
+            return (
+              <Fragment key={items.name + index}>
+                <div>
+                  <p>{items.name}</p>
+                </div>
+                <div>
+                  <p>{items.value}</p>
+                </div>
+              </Fragment>
+            )
+          })}
       </Details>
 
       <Footer />
     </>
-  );
-};
+  )
+}
 
-export default ProductDetails;
+export default ProductDetails
