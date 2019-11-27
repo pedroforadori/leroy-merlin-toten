@@ -17,7 +17,6 @@ import {
   Categories,
   Grid,
   CheckItem,
-  ButtonWrapper,
   Wrapper,
   SelectAll
 } from './style'

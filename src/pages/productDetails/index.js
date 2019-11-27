@@ -42,38 +42,40 @@ const ProductDetails = () => {
         </Title>
 
         <div>
-          <ImageProduct src={productDetails &&
-                                productDetails.pictures &&
-                                  productDetails.pictures[0].url || noImg}
+          <ImageProduct
+            src={
+              (productDetails &&
+                productDetails.pictures &&
+                productDetails.pictures[0].url) ||
+              noImg
+            }
           />
         </div>
-        <Price>
-          <h1>
-            <span className='cifra'>R$</span>
-            <span className='fristPrice'>
-              {
-                currencyDisplay(
-                  productDetails.prices &&
-                    productDetails.prices &&
-                    productDetails.prices.price,
-                  false
-                ).split(",")[0]
-              }
-              ,
-            </span>
-            <span className='secondPrice'>
-              {
-                currencyDisplay(
-                  productDetails.prices &&
-                    productDetails.prices &&
-                    productDetails.prices.price,
-                  false
-                ).split(",")[1]
-              }
-            </span>
-            <span className='unit'> / cada</span>
-          </h1>
-        </Price>
+        {productDetails.prices && productDetails.prices.price ? (
+          <Price>
+            <h1>
+              <span className='cifra'>R$</span>
+              <span className='fristPrice'>
+                {
+                  currencyDisplay(
+                    productDetails.prices && productDetails.prices.price,
+                    false
+                  ).split(",")[0]
+                }
+                ,
+              </span>
+              <span className='secondPrice'>
+                {
+                  currencyDisplay(
+                    productDetails.prices && productDetails.prices.price,
+                    false
+                  ).split(",")[1]
+                }
+              </span>
+              <span className='unit'> / cada</span>
+            </h1>
+          </Price>
+        ) : ''}
       </MainPage>
 
       <Details>

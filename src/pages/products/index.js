@@ -9,8 +9,7 @@ import {
   DescriptionProduct,
   IdProduct,
   PriceProduct,
-  BoxDecription,
-  PortionProduct
+  BoxDecription 
 } from './style'
 import img from '../../img/sampler.png'
 
@@ -42,7 +41,7 @@ const Products = props => {
   return (
     <>
       <Header />
-      <GoBackLink goBack>{departmentName || 'Decoração'}</GoBackLink>
+      <GoBackLink goBack>{departmentName || "Decoração"}</GoBackLink>
 
       <CarouselTitle text={categoryName}></CarouselTitle>
 
@@ -51,34 +50,40 @@ const Products = props => {
           <Category
             key={product.id}
             onClick={() =>
-              history.push(`/categories/${categoryId}/${categoryName}/product/${product._id}`)
+              history.push(
+                `/categories/${categoryId}/${categoryName}/product/${product._id}`
+              )
             }
           >
             <ProductImg src={product.pictures[0].url || img} />
             <BoxDecription>
               <DescriptionProduct>
-                <p>{product.name || 'Sample Title'}</p>
+                <p>{product.name || "Sample Title"}</p>
               </DescriptionProduct>
-              <IdProduct>(Cod. {product.lm_leroy || '9192332'})</IdProduct>
-              <PriceProduct>
-                R$
-                <span>
-                  {
-                    currencyDisplay(product.prices && product.prices.price, false).split(
-                      ','
-                    )[0]
-                  }
-                </span>
-                <span>
-                  ,
-                  {
-                    currencyDisplay(product.prices && product.prices.price, false).split(
-                      ','
-                    )[1]
-                  }
-                </span>
-                <span>cada</span>
-              </PriceProduct>
+              <IdProduct>(Cod. {product.lm_leroy || "9192332"})</IdProduct>
+              {product.prices && product.prices.price ? (
+                <PriceProduct>
+                  R$
+                  <span>
+                    {
+                      currencyDisplay(
+                        product.prices && product.prices.price,
+                        false
+                      ).split(",")[0]
+                    }
+                  </span>
+                  <span>
+                    ,
+                    {
+                      currencyDisplay(
+                        product.prices && product.prices.price,
+                        false
+                      ).split(",")[1]
+                    }
+                  </span>
+                  <span>cada</span>
+                </PriceProduct>
+              ) : ""}
               {/* <PortionProduct>12x de R$ 3,15 sem juros</PortionProduct> */}
             </BoxDecription>
           </Category>
@@ -87,7 +92,7 @@ const Products = props => {
 
       <Footer />
     </>
-  )
+  );
 }
 
 export default Products
