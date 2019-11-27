@@ -46,7 +46,7 @@ const Products = props => {
       <CarouselTitle text={categoryName}></CarouselTitle>
 
       <Container>
-        {products.map(product => (
+        {products.length ? products.map(product => (
           <Category
             key={product.id}
             onClick={() =>
@@ -87,7 +87,7 @@ const Products = props => {
               {/* <PortionProduct>12x de R$ 3,15 sem juros</PortionProduct> */}
             </BoxDecription>
           </Category>
-        ))}
+        )) : 'Categoria sem Produto'}
       </Container>
 
       <Footer />
