@@ -64,11 +64,7 @@ const Categories = () => {
           <Category
             src={category.picture}
             key={category.name}
-<<<<<<< HEAD
             onClick={() => history.push(`/categories/${category.id}/${category.name}`)}
-=======
-            onClick={() => history.push(`/categories/${category._id}`)}
->>>>>>> acfe787213bf4ee103ed1169a4cc7eb5c4220c93
           >
             <div>
               <div>{category.name}</div>
