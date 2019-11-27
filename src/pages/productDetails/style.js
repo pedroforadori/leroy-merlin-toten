@@ -46,6 +46,7 @@ export const Title = styled.div`
 export const ImageProduct = styled.img`
     max-width: 400px;
     height: auto;
+    border-radius: 3px;
 `
 
 export const Price = styled.div`
