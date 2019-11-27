@@ -28,6 +28,16 @@ export const getRefreshTokenExpirationDate = () => getLocalObj(LOCAL_KEY).refres
 
 export const getStoreId = () => getLocalObj(LOCAL_KEY).storeId
 
+export const getDepartmentName = () => getLocalObj(LOCAL_KEY).departmentName
+
+export const getBanner1Title = () => getLocalObj(LOCAL_KEY).banner1Title
+
+export const getBanner1Subtitle = () => getLocalObj(LOCAL_KEY).banner1Subtitle
+
+export const getBanner2Title = () => getLocalObj(LOCAL_KEY).banner2Title
+
+export const getBanner2Subtitle = () => getLocalObj(LOCAL_KEY).banner2Subtitle
+
 // export const getDepartmentId = () => getLocalObj(LOCAL_KEY).departmentId
 
 export const getSelectedCategories = () => getLocalObj(LOCAL_KEY).selectedCategories

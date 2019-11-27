@@ -11,14 +11,16 @@ import { Creators as ProductsActions } from '../../store/ducks/products'
 
 import decoracaoImage from '../../mock/decoracao.png'
 
-import { getStoreId } from '../../services/auth'
+import { getStoreId, getDepartmentName, getSelectedCategories } from '../../services/auth'
 
 const Categories = () => {
   let history = useHistory()
 
   if (!getStoreId()) history.push('/setup')
 
-  const categories = useSelector(state => state.products.categories)
+  // const categories = useSelector(state => state.products.categories)
+
+  const [selectedCategories, setSelectedCategories] = useState(getSelectedCategories())
 
   const dispatch = useDispatch()
 
@@ -48,30 +50,31 @@ const Categories = () => {
 
   useEffect(() => {
     startTimeout()
-    dispatch(ProductsActions.getCategoriesRequest(getStoreId(), true))
+    // dispatch(ProductsActions.getCategoriesRequest(getStoreId(), true))
   }, [dispatch, startTimeout])
 
   return (
     <>
       <Header />
 
-      <MainImage src={decoracaoImage}>
-        <div>Decoração</div>
+      <MainImage>
+        <div>{getDepartmentName()}</div>
       </MainImage>
 
       <Container>
-        {categories.map(category => (
-          <Category
-            src={category.picture}
-            key={category.name}
-            onClick={() => history.push(`/categories/${category._id}/${category.name}`)}
-          >
-            <div>
-              <div>{category.name}</div>
-              <div>{category.description}</div>
-            </div>
-          </Category>
-        ))}
+        {selectedCategories &&
+          selectedCategories.map(category => (
+            <Category
+              src={category.image}
+              key={category.name}
+              onClick={() => history.push(`/categories/${category.id}/${category.name}`)}
+            >
+              <div>
+                <div>{category.name}</div>
+                <div>{category.description}</div>
+              </div>
+            </Category>
+          ))}
       </Container>
 
       <Footer />

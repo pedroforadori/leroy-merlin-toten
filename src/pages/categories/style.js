@@ -6,17 +6,17 @@ export const MainImage = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url(${({ src }) => src});
+  /* background-image: url(${({ src }) => src}); */
   background-position: center;
   background-size: cover;
-  height: 258px;
+  height: 0; /* 158px; */
   max-width: 100%;
 
   div {
     z-index: 1;
     font-size: 64px;
     font-weight: ${theme.fontSemibold};
-    color: ${theme.white};
+    color: ${theme.primaryDefault};
     text-align: center;
   }
 `

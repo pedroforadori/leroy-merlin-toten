@@ -1,4 +1,5 @@
 import React, { useEffect, useCallback } from 'react'
+import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import Carousel from 're-carousel'
 
@@ -21,6 +22,11 @@ const Home = () => {
   let history = useHistory()
 
   if (!getStoreId()) history.push('/setup')
+
+  const banner1Title = useSelector(state => state.products.banner1Title)
+  const banner1Subtitle = useSelector(state => state.products.banner1Subtitle)
+  const banner2Title = useSelector(state => state.products.banner2Title)
+  const banner2Subtitle = useSelector(state => state.products.banner2Subtitle)
 
   const handleClick = useCallback(() => {
     history.push('/categories')
@@ -45,12 +51,17 @@ const Home = () => {
   return (
     <Carousel auto loop widgets={[Dots]}>
       <Image src={[homeLandscape, homePortrait]}>
-        <SideText color={theme.primaryDefault} title={title} subTitle={subTitle} zIndex="1" />
+        <SideText
+          color={theme.primaryDefault}
+          title={banner1Title}
+          subTitle={banner1Subtitle}
+          zIndex="1"
+        />
         <SideShape color={theme.textYellow} zIndex="0" />
         <SideLogo />
       </Image>
       <Image src={[home2Landscape, home2Portrait]}>
-        <SideText color={theme.red} title={title2} subTitle={subTitle2} zIndex="1" />
+        <SideText color={theme.red} title={banner2Title} subTitle={banner2Subtitle} zIndex="1" />
         <SideShape color={theme.textYellow} zIndex="0" />
         <SideLogo />
       </Image>

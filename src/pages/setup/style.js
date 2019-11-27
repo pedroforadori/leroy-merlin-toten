@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import theme from '../../styles/theme'
 
@@ -13,7 +13,8 @@ export const selectStyle = {
     // color: state.isSelected ? 'red' : 'blue'
   }),
   container: (provided, state) => ({
-    ...provided
+    ...provided,
+    fontSize: 18
     // border: `1px solid ${theme.primaryDefault}`
     // color: state.isSelected ? 'red' : 'blue'
   }),
@@ -32,9 +33,19 @@ export const selectStyle = {
   })
 }
 
+export const selectTheme = {
+  primary: theme.primaryDefault,
+  neutral50: theme.darkGray04
+}
+
 export const Container = styled.div`
   width: 100%;
   padding: 0 40px 80px;
+  ${({ hidden }) =>
+    hidden &&
+    css`
+      display: none;
+    `};
 `
 
 export const Filters = styled.div`
@@ -96,7 +107,11 @@ export const TabTitle = styled.div`
   p {
     font-size: 18;
     line-height: 22px;
-    font-weight: 600;
+    ${({ isSelected }) =>
+      isSelected &&
+      css`
+        font-weight: 600;
+      `};
   }
 
   div {
@@ -157,4 +172,38 @@ export const SelectAll = styled.span`
   line-height: 21px;
   color: ${theme.primaryDefault};
   cursor: pointer;
+`
+
+export const TitleInput = styled.div`
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 600;
+  color: ${theme.primaryDefault};
+  margin-top: 60px;
+`
+
+export const InputWrapper = styled.div`
+  flex: 1;
+  margin-top: 33px;
+
+  > input {
+    margin-top: 13px;
+  }
+`
+
+export const Input = styled.input`
+  width: 100%;
+  height: 57px;
+  border: 1px solid ${theme.primaryDefault};
+  border-radius: 8px;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 600;
+  color: ${theme.primaryDefault};
+  padding-left: 10px;
+
+  ::placeholder {
+    font-weight: 400;
+    color: ${theme.darkGray04};
+  }
 `

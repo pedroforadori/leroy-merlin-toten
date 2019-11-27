@@ -5,6 +5,7 @@ import Select from 'react-select'
 
 import {
   selectStyle,
+  selectTheme,
   Container,
   Filters,
   SelectWrapper,
@@ -19,7 +20,10 @@ import {
   CheckItem,
   ButtonWrapper,
   Wrapper,
-  SelectAll
+  SelectAll,
+  TitleInput,
+  InputWrapper,
+  Input
 } from './style'
 
 import Header from '../../components/Header'
@@ -41,10 +45,16 @@ const Setup = () => {
   // const departments = useSelector(state => state.products.departments)
   const categories = useSelector(state => state.products.categories)
   const loading = useSelector(state => state.products.loading)
+  const departmentName = useSelector(state => state.products.departmentName)
+  const banner1Title = useSelector(state => state.products.banner1Title)
+  const banner1Subtitle = useSelector(state => state.products.banner1Subtitle)
+  const banner2Title = useSelector(state => state.products.banner2Title)
+  const banner2Subtitle = useSelector(state => state.products.banner2Subtitle)
 
   const [section, setSection] = useState('categories')
   const [selectAll, toggleSelectAll] = useState(false)
   // const [filteredCategories, setFilteredCategories] = useState([])
+  // const [departmentName, setDepartmentName] = useState('')
 
   const dispatch = useDispatch()
 
@@ -74,6 +84,13 @@ const Setup = () => {
     // setDepartment({})
     // toggleSelectAll(false)
     // dispatch(ProductsActions.getDepartmentsRequest(selection.id))
+  }
+
+  const handleInput = e => {
+    const { name, value } = e.target
+
+    dispatch(ProductsActions.setAttrValue(name, value))
+    // name === 'departmentName' && setDepartmentName(value)
   }
 
   const handleFilterCategories = selection => {
@@ -111,7 +128,11 @@ const Setup = () => {
   const handleSubmit = () => {
     persistData({
       storeId,
-      // departmentId: department.id,
+      departmentName,
+      banner1Title,
+      banner1Subtitle,
+      banner2Title,
+      banner2Subtitle,
       selectedCategories: categories
         .filter(category => category.isSelected)
         .map(category => ({ id: category._id, name: category.name, image: category.picture }))
@@ -137,20 +158,19 @@ const Setup = () => {
       <Container>
         <Title>Configure o sistema para começar a usar</Title>
         <SubTitle>Selecione abaixo sua loja e as categorias que deseja habilitar</SubTitle>
-
         <TabWrapper>
           <TabTitle isSelected={section === 'categories'} onClick={() => setSection('categories')}>
             <p>Categorias</p>
             <div />
           </TabTitle>
 
-          {/* <TabTitle isSelected={section === 'banner'} onClick={() => setSection('banner')}>
+          <TabTitle isSelected={section === 'banner'} onClick={() => setSection('banner')}>
             <p>Banner</p>
             <div />
-          </TabTitle> */}
+          </TabTitle>
         </TabWrapper>
 
-        <Content>
+        <Content hidden={section !== 'categories'}>
           <Filters>
             <SelectWrapper>
               <Label>Selecione sua Loja</Label>
@@ -163,6 +183,13 @@ const Setup = () => {
                 isSearchable={false}
                 styles={selectStyle}
                 onChange={handleSelectStore}
+                theme={defaultTheme => ({
+                  ...defaultTheme,
+                  colors: {
+                    ...defaultTheme.colors,
+                    ...selectTheme
+                  }
+                })}
               />
             </SelectWrapper>
 
@@ -181,6 +208,15 @@ const Setup = () => {
                 styles={selectStyle}
                 onChange={handleFilterCategories}
                 // onInputChange={handleFilterCategories}
+                theme={defaultTheme => ({
+                  ...defaultTheme,
+                  fontSize: 18,
+                  lineHeight: '24px',
+                  colors: {
+                    ...defaultTheme.colors,
+                    ...selectTheme
+                  }
+                })}
               />
             </SelectWrapper>
           </Filters>
@@ -212,11 +248,84 @@ const Setup = () => {
           )}
         </Content>
 
+        <Content hidden={section !== 'banner'}>
+          <TitleInput>Departamento</TitleInput>
+
+          <InputWrapper>
+            <Label>Nome do Departamento</Label>
+
+            <Input
+              name="departmentName"
+              placeholder="Digite o Nome"
+              value={departmentName}
+              onChange={handleInput}
+            />
+          </InputWrapper>
+
+          <TitleInput>Banner 1</TitleInput>
+
+          <InputWrapper>
+            <Label>Título do Banner</Label>
+
+            <Input
+              name="banner1Title"
+              placeholder="Digite o Título"
+              value={banner1Title}
+              onChange={handleInput}
+            />
+          </InputWrapper>
+
+          <InputWrapper>
+            <Label>Subtítulo do Banner</Label>
+
+            <Input
+              name="banner1Subtitle"
+              placeholder="Digite o Subtítulo"
+              value={banner1Subtitle}
+              onChange={handleInput}
+            />
+          </InputWrapper>
+
+          <TitleInput>Banner 2</TitleInput>
+
+          <InputWrapper>
+            <Label>Título do Banner</Label>
+
+            <Input
+              name="banner2Title"
+              placeholder="Digite o Título"
+              value={banner2Title}
+              onChange={handleInput}
+            />
+          </InputWrapper>
+
+          <InputWrapper>
+            <Label>Subtítulo do Banner</Label>
+
+            <Input
+              name="banner2Subtitle"
+              placeholder="Digite o Subtítulo"
+              value={banner2Subtitle}
+              onChange={handleInput}
+            />
+          </InputWrapper>
+        </Content>
+
         {!loading && !!categories.length && (
           // <ButtonWrapper>
           <Button
             fixed
-            disabled={!(storeId && categories.some(category => category.isSelected))}
+            disabled={
+              !(
+                storeId &&
+                categories.some(category => category.isSelected) &&
+                departmentName.trim() &&
+                banner1Title.trim() &&
+                banner1Subtitle.trim() &&
+                banner2Title.trim() &&
+                banner2Subtitle.trim()
+              )
+            }
             onClick={handleSubmit}
           >
             FINALIZAR

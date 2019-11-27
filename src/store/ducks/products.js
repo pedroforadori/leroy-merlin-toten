@@ -1,4 +1,5 @@
 export const Types = {
+  SET_ATTR_VALUE: 'products/SET_ATTR_VALUE',
   GET_STORES_REQUEST: 'products/GET_STORES_REQUEST',
   GET_STORES_SUCCESS: 'products/GET_STORES_SUCCESS',
   SET_STORE_ID: 'products/SET_STORE_ID',
@@ -7,6 +8,8 @@ export const Types = {
   GET_CATEGORIES_REQUEST: 'products/GET_CATEGORIES_REQUEST',
   GET_CATEGORIES_SUCCESS: 'products/GET_CATEGORIES_SUCCESS',
   SET_CATEGORIES: 'products/SET_CATEGORIES',
+  // GET_SELECTED_CATEGORIES: 'products/GET_SELECTED_CATEGORIES',
+  // SET_SELECTED_CATEGORIES: 'products/SET_SELECTED_CATEGORIES',
   GET_PRODUCTS_REQUEST: 'products/GET_PRODUCTS_REQUEST',
   GET_PRODUCTS_SUCCESS: 'products/GET_PRODUCTS_SUCCESS',
   GET_PRODUCT_DETAILS_REQUEST: 'products/GET_PRODUCT_DETAILS_REQUEST',
@@ -15,6 +18,11 @@ export const Types = {
 
 const INITIAL_STATE = {
   storeId: null,
+  departmentName: '',
+  banner1Title: 'Veja aqui',
+  banner1Subtitle: 'Todas as opções de decoração',
+  banner2Title: 'Renove sua Casa',
+  banner2Subtitle: 'Com os melhores descontos e as melhores marcas',
   // departmentId: null,
   stores: [],
   // departments: [],
@@ -27,6 +35,8 @@ const INITIAL_STATE = {
 
 export default function products(state = INITIAL_STATE, action) {
   switch (action.type) {
+    case Types.SET_ATTR_VALUE:
+      return { ...state, [action.name]: action.value }
     case Types.GET_STORES_REQUEST:
       return { ...state, loading: true }
     case Types.GET_STORES_SUCCESS:
@@ -77,6 +87,11 @@ export default function products(state = INITIAL_STATE, action) {
 }
 
 export const Creators = {
+  setAttrValue: (name, value) => ({
+    type: Types.SET_ATTR_VALUE,
+    name,
+    value
+  }),
   getStoresRequest: () => ({
     type: Types.GET_STORES_REQUEST
   }),
