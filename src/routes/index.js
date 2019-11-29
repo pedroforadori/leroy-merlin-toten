@@ -7,7 +7,7 @@ import Categories from '../pages/categories'
 import Products from '../pages/products'
 import ProductDetails from '../pages/productDetails'
 
-const Routes = () => {
+export default function Routes() {
   return (
     <Switch>
       <Route exact path="/setup">
@@ -34,5 +34,3 @@ const Routes = () => {
     </Switch>
   )
 }
-
-export default Routes

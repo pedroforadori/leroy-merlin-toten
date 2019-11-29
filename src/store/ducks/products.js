@@ -30,7 +30,8 @@ const INITIAL_STATE = {
   categoriesSelected: [],
   products: [],
   productDetails: {},
-  loading: true
+  loading: false,
+  loadingCategories: false
 }
 
 export default function products(state = INITIAL_STATE, action) {
@@ -56,11 +57,11 @@ export default function products(state = INITIAL_STATE, action) {
     //     departments: action.data
     //   }
     case Types.GET_CATEGORIES_REQUEST:
-      return { ...state, loading: true }
+      return { ...state, loadingCategories: true }
     case Types.GET_CATEGORIES_SUCCESS:
       return {
         ...state,
-        loading: false,
+        loadingCategories: false,
         categories: action.data
       }
     case Types.SET_CATEGORIES:

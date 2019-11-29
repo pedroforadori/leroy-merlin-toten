@@ -34,19 +34,13 @@ const Home = () => {
 
   useEffect(() => {
     document.addEventListener('click', handleClick)
-    console.log('addEventListener')
+    // console.log('addEventListener')
 
     return () => {
       document.removeEventListener('click', handleClick)
-      console.log('removeEventListener')
+      // console.log('removeEventListener')
     }
   }, [handleClick])
-
-  const title = 'Veja aqui'
-  const subTitle = 'Todas as opções de decoração'
-
-  const title2 = 'Renove sua Casa'
-  const subTitle2 = 'Com os melhores descontos e as melhores marcas'
 
   return (
     <Carousel auto loop widgets={[Dots]}>

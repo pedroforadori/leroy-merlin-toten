@@ -28,7 +28,7 @@ export const Container = styled.button`
     fixed &&
     css`
       position: fixed;
-      bottom: 20px;
+      bottom: 40px;
       right: 40px;
     `}
 `

@@ -1,4 +1,4 @@
-import React, {useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
@@ -6,6 +6,7 @@ import { MainImage, Container, Category } from './style'
 
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
+import RedirectTimer from '../../components/RedirectTimer'
 
 import { Creators as ProductsActions } from '../../store/ducks/products'
 
@@ -24,37 +25,10 @@ const Categories = () => {
 
   const dispatch = useDispatch()
 
-  const redirectHome = () => history.push('/home')
-
-  let redirectionDelay
-
-  const startTimeout = useCallback(() => {
-    redirectionDelay = setTimeout(redirectHome, 60000)
-    console.log('timeout started')
-  }, [redirectionDelay])
-
-  const handleAction = useCallback(() => {
-    clearTimeout(redirectionDelay)
-    startTimeout()
-  }, [redirectionDelay, startTimeout])
-
-  useEffect(() => {
-    document.addEventListener('click', handleAction)
-    console.log('addEventListener handleAction')
-
-    return () => {
-      document.removeEventListener('click', handleAction)
-      console.log('removeEventListener handleAction')
-    }
-  }, [handleAction])
-
-  useEffect(() => {
-    startTimeout()
-    // dispatch(ProductsActions.getCategoriesRequest(getStoreId(), true))
-  }, [dispatch, startTimeout])
-
   return (
     <>
+      <RedirectTimer />
+
       <Header />
 
       <MainImage>

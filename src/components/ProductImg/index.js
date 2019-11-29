@@ -1,8 +1,6 @@
-import React from 'react';
-import { Container } from './style';
+import React from 'react'
+import { Container } from './style'
 
-const ProductImg = (props) => (
-    <Container {...props } /> 
-);
+const ProductImg = props => <Container {...props} />
 
-export default ProductImg;
+export default ProductImg

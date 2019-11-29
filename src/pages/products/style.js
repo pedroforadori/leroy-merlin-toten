@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import theme from '../../styles/theme'
 
@@ -7,7 +7,7 @@ export const Container = styled.div`
   grid-column-gap: 22px;
   grid-row-gap: 45px;
   grid-template-columns: repeat(auto-fit, 239px);
-  justify-content: space-between;
+  justify-content: space-around;
   padding: 0 47px 80px 47px;
 `
 
@@ -23,6 +23,20 @@ export const Category = styled.div`
   border-radius: 8px;
 `
 
+export const WrapperCenter = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  color: ${theme.darkGray};
+
+  ${({ loading }) =>
+    loading &&
+    css`
+      height: calc(100% - 232px);
+    `};
+`
+
 export const BoxDecription = styled.div`
   display: flex;
   flex-direction: column;
@@ -33,8 +47,7 @@ export const DescriptionProduct = styled.div`
   font-size: 16px;
   line-height: 19px;
   margin-top: 14px;
-  /* cinza */
-  color: #666666;
+  color: ${theme.darkGray};
   min-height: 57px;
 
   display: -webkit-box;
@@ -44,7 +57,7 @@ export const DescriptionProduct = styled.div`
 `
 
 export const IdProduct = styled.div`
-  color: #666666;
+  color: ${theme.darkGray};
   opacity: 0.6;
   font-size: 12px;
   line-height: 144%;
@@ -56,8 +69,7 @@ export const PriceProduct = styled.div`
   font-weight: normal;
   font-size: 14px;
   line-height: 19px;
-  /* cinza */
-  color: #333333;
+  color: ${theme.textDefault};
   margin-top: 15px;
   position: relative;
 
@@ -83,5 +95,5 @@ export const PortionProduct = styled.div`
   font-size: 12px;
   line-height: 14px;
 
-  color: #666666;
+  color: ${theme.darkGray};
 `

@@ -40,12 +40,35 @@ export const selectTheme = {
 
 export const Container = styled.div`
   width: 100%;
-  padding: 0 40px 80px;
+  padding: 0 40px 130px;
+
+  ${({ loadingCategories }) =>
+    loadingCategories &&
+    css`
+      height: calc(100% - 107px);
+    `};
+
   ${({ hidden }) =>
     hidden &&
     css`
       display: none;
     `};
+`
+
+export const Content = styled.div`
+  ${({ loadingCategories }) =>
+    loadingCategories &&
+    css`
+      height: calc(100% - 217px);
+    `};
+
+  margin-top: 50px;
+
+  @media (orientation: landscape) {
+  }
+
+  @media (orientation: portrait) {
+  }
 `
 
 export const Filters = styled.div`
@@ -127,10 +150,6 @@ export const Label = styled.span`
   color: ${theme.primaryDefault};
 `
 
-export const Content = styled.div`
-  margin-top: 50px;
-`
-
 export const Categories = styled.div`
   margin-top: 41px;
 `
@@ -206,4 +225,12 @@ export const Input = styled.input`
     font-weight: 400;
     color: ${theme.darkGray04};
   }
+`
+
+export const WrapperCenter = styled.div`
+  flex: 1;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `

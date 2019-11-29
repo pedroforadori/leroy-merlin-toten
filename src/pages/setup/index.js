@@ -22,13 +22,15 @@ import {
   SelectAll,
   TitleInput,
   InputWrapper,
-  Input
+  Input,
+  WrapperCenter
 } from './style'
 
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import Checkbox from '../../components/Checkbox'
 import Button from '../../components/Button'
+import LoadingIcon from '../../components/icons/LoadingIcon'
 
 import { Creators as ProductsActions } from '../../store/ducks/products'
 
@@ -44,6 +46,7 @@ const Setup = () => {
   // const departments = useSelector(state => state.products.departments)
   const categories = useSelector(state => state.products.categories)
   const loading = useSelector(state => state.products.loading)
+  const loadingCategories = useSelector(state => state.products.loadingCategories)
   const departmentName = useSelector(state => state.products.departmentName)
   const banner1Title = useSelector(state => state.products.banner1Title)
   const banner1Subtitle = useSelector(state => state.products.banner1Subtitle)
@@ -145,16 +148,11 @@ const Setup = () => {
     dispatch(ProductsActions.getCategoriesRequest())
   }, [dispatch])
 
-  // console.log('stores', stores)
-  // console.log('departments', departments)
-  // console.log('categories', categories)
-  // console.log('getStoreId', getStoreId())
-
   return (
     <>
       <Header />
 
-      <Container>
+      <Container loadingCategories={loadingCategories}>
         <Title>Configure o sistema para começar a usar</Title>
         <SubTitle>Selecione abaixo sua loja e as categorias que deseja habilitar</SubTitle>
         <TabWrapper>
@@ -169,7 +167,7 @@ const Setup = () => {
           </TabTitle>
         </TabWrapper>
 
-        <Content hidden={section !== 'categories'}>
+        <Content hidden={section !== 'categories'} loadingCategories={loadingCategories}>
           <Filters>
             <SelectWrapper>
               <Label>Selecione sua Loja</Label>
@@ -180,6 +178,8 @@ const Setup = () => {
                 getOptionValue={({ _id }) => _id}
                 placeholder="Selecione a Unidade"
                 isSearchable={false}
+                isLoading={loading}
+                loadingMessage="Carregando..."
                 styles={selectStyle}
                 onChange={handleSelectStore}
                 theme={defaultTheme => ({
@@ -203,6 +203,8 @@ const Setup = () => {
                 placeholder="Buscar Categoria"
                 isSearchable
                 isClearable
+                isLoading={loadingCategories}
+                loadingMessage="Carregando..."
                 // isDisabled={!categories.length}
                 styles={selectStyle}
                 onChange={handleFilterCategories}
@@ -220,7 +222,11 @@ const Setup = () => {
             </SelectWrapper>
           </Filters>
 
-          {!loading && !!categories.length && (
+          {loadingCategories || !categories.length ? (
+            <WrapperCenter>
+              <LoadingIcon />
+            </WrapperCenter>
+          ) : (
             <Categories>
               <Wrapper>
                 <Label>Selecione as Categorias do Departamento</Label>
@@ -230,7 +236,6 @@ const Setup = () => {
               </Wrapper>
 
               <Grid>
-                {/* {((filteredCategories.length && filteredCategories) || categories).map( */}
                 {categories
                   .filter(category => !category.hidden)
                   .map(category => (

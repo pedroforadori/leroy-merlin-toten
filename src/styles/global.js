@@ -14,6 +14,11 @@ const GlobalStyle = createGlobalStyle`
   html, body, #root {
     height: 100%;
   }
+
+  /* #root {
+    display: flex;
+    flex-direction: column;
+  } */
   
   body {
     text-rendering: optimizeLegibility !important;
@@ -21,8 +26,6 @@ const GlobalStyle = createGlobalStyle`
     color: ${theme.textDefault};
     background-color: ${theme.white};
     font-family: 'Leroy Merlin Sans';
-    display: flex;
-    flex-direction: column;
   }
 `
 
