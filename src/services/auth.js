@@ -14,6 +14,8 @@ export const LOCAL_KEY = '@leroy-kiosk'
 
 export const ACCESS_TOKEN = '@leroy-kiosk/token'
 
+export const EDIT_SETUP = '@leroy-kiosk/setup'
+
 export const getLocalObj = key => JSON.parse(localStorage.getItem(key)) || {}
 
 export const getToken = () => localStorage.getItem(ACCESS_TOKEN)
@@ -26,7 +28,13 @@ export const getRefreshToken = () => getLocalObj(LOCAL_KEY).refresh_token
 
 export const getRefreshTokenExpirationDate = () => getLocalObj(LOCAL_KEY).refreshTokenExpiresAt
 
+export const getEditSetup = () => localStorage.getItem(EDIT_SETUP)
+
+export const setEditSetup = value => localStorage.setItem(EDIT_SETUP, value)
+
 export const getStoreId = () => getLocalObj(LOCAL_KEY).storeId
+
+export const getStoreName = () => getLocalObj(LOCAL_KEY).storeName
 
 export const getDepartmentName = () => getLocalObj(LOCAL_KEY).departmentName
 

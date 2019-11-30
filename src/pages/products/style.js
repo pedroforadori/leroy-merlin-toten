@@ -23,18 +23,13 @@ export const Category = styled.div`
   border-radius: 8px;
 `
 
-export const WrapperCenter = styled.div`
+export const NotFoundWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 24px;
   color: ${theme.darkGray};
-
-  ${({ loading }) =>
-    loading &&
-    css`
-      height: calc(100% - 232px);
-    `};
+  height: calc(100% - 262px);
 `
 
 export const BoxDecription = styled.div`

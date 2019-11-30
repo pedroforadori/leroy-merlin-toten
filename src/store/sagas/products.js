@@ -46,7 +46,22 @@ export function* getStores() {
 
 export function* getCategories(action) {
   try {
-    const response = yield retry(10, 2000, categoriesApi.get)
+    const response = yield retry(
+      10,
+      2000,
+      productsApi.get,
+      action.selectedCategories ? `/categories?ids=${action.selectedCategories}` : '/categories'
+    )
+
+    let categories = response.data.data
+
+    const categoriesSelected = getSelectedCategories() && getSelectedCategories().split(',')
+
+    if (categoriesSelected && !action.selectedCategories) {
+      categories = categories.map(category =>
+        categoriesSelected.includes(category._id) ? { ...category, isSelected: true } : category
+      )
+    }
 
     // let response = { data: '' }
 
@@ -54,17 +69,18 @@ export function* getCategories(action) {
     //   category => category.departmentId === action.departmentId
     // )
 
-    let filteredCategories
+    // let filteredCategories
 
-    if (action.filterSelected) {
-      const selectedCategories = getSelectedCategories()
+    // if (action.selectedCategories) {
+    //   const selectedCategories = getSelectedCategories()
 
-      filteredCategories = response.data.data.filter(category =>
-        selectedCategories.find(selectedCategory => selectedCategory.id === category._id)
-      )
-    }
+    //   filteredCategories = response.data.data.filter(category =>
+    //     selectedCategories.find(selectedCategory => selectedCategory.id === category._id)
+    //   )
+    // }
 
-    yield put(ProductActions.getCategoriesSuccess(filteredCategories || response.data.data))
+    // yield put(ProductActions.getCategoriesSuccess(filteredCategories || response.data.data))
+    yield put(ProductActions.getCategoriesSuccess(categories))
   } catch (err) {
     console.log(err)
   }

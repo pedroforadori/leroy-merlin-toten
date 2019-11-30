@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 
@@ -13,18 +13,22 @@ import { Creators as ProductsActions } from '../../store/ducks/products'
 import { currencyDisplay } from '../../utils/currency'
 
 import { Container, WrapperCenter, Title, MainPage, ImageProduct, Details, Price } from './style'
-import { getStoreId } from '../../services/auth'
+import { getStoreId, getEditSetup } from '../../services/auth'
 
-import noImg from '../../img/sampler.png'
+import productPlaceholder from '../../assets/images/product_placeholder.png'
+import ImageViewer from '../../components/ImageViewer'
 
 const ProductDetails = () => {
   let history = useHistory()
   const { productId, categoryName } = useParams()
 
-  if (!getStoreId()) history.push('/setup')
+  if (!getStoreId() || getEditSetup() === 'true') history.push('/setup')
 
   const productDetails = useSelector(state => state.products.productDetails)
   const loading = useSelector(state => state.products.loading)
+
+  const [isOpen, setIsOpen] = useState(false)
+  const [imageIndex, setImageIndex] = useState(0)
 
   const dispatch = useDispatch()
 
@@ -32,13 +36,16 @@ const ProductDetails = () => {
     dispatch(ProductsActions.getProductDetailsRequest(getStoreId(), productId))
   }, [dispatch, productId])
 
+  console.log('image', productDetails.pictures)
+  console.log('image', productDetails.pictures && productDetails.pictures[imageIndex].url)
+
   return (
     <>
       <RedirectTimer />
 
       <Header />
 
-      <GoBackLink goBack>{categoryName || 'pagina anterior'}</GoBackLink>
+      <GoBackLink>{categoryName}</GoBackLink>
 
       {loading ? (
         <WrapperCenter loading={loading}>
@@ -58,12 +65,23 @@ const ProductDetails = () => {
               <p>{productDetails.description}</p>
             </Title>
 
-            <div>
+            <div style={{ cursor: 'pointer' }} onClick={() => setIsOpen(true)}>
               <ImageProduct
                 src={
-                  (productDetails && productDetails.pictures && productDetails.pictures[0].url) ||
-                  noImg
+                  (productDetails &&
+                    productDetails.pictures &&
+                    productDetails.pictures[imageIndex].url) ||
+                  productPlaceholder
                 }
+              />
+
+              <ImageViewer
+                images={productDetails.pictures.map(picture => picture.url)}
+                index={imageIndex}
+                isOpen={isOpen}
+                onCloseRequest={() => setIsOpen(false)}
+                onMovePrevRequest={setImageIndex}
+                onMoveNextRequest={setImageIndex}
               />
             </div>
 

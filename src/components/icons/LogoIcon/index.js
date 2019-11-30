@@ -5,6 +5,7 @@ import theme from '../../../styles/theme'
 export default function LogoIcon(props) {
   return (
     <svg
+      {...props}
       width={props.width || '45'}
       height={props.height || '28'}
       viewBox="0 0 45 28"

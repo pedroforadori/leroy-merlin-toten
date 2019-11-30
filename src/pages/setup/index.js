@@ -34,26 +34,49 @@ import LoadingIcon from '../../components/icons/LoadingIcon'
 
 import { Creators as ProductsActions } from '../../store/ducks/products'
 
-import { getStoreId, persistData } from '../../services/auth'
+import {
+  getEditSetup,
+  setEditSetup,
+  persistData,
+  getStoreId,
+  getStoreName,
+  getDepartmentName,
+  getBanner1Title,
+  getBanner1Subtitle,
+  getBanner2Title,
+  getBanner2Subtitle
+} from '../../services/auth'
 
 const Setup = () => {
   let history = useHistory()
 
-  if (getStoreId()) history.push('/home')
+  if (getEditSetup() === 'false') history.push('/home')
 
-  const storeId = useSelector(state => state.products.storeId)
+  // const storeId = useSelector(state => state.products.storeId)
+
   const stores = useSelector(state => state.products.stores)
   // const departments = useSelector(state => state.products.departments)
   const categories = useSelector(state => state.products.categories)
   const loading = useSelector(state => state.products.loading)
   const loadingCategories = useSelector(state => state.products.loadingCategories)
-  const departmentName = useSelector(state => state.products.departmentName)
-  const banner1Title = useSelector(state => state.products.banner1Title)
-  const banner1Subtitle = useSelector(state => state.products.banner1Subtitle)
-  const banner2Title = useSelector(state => state.products.banner2Title)
-  const banner2Subtitle = useSelector(state => state.products.banner2Subtitle)
+  // const departmentName = useSelector(state => state.products.departmentName)
+  // const banner1Title = useSelector(state => state.products.banner1Title)
+  // const banner1Subtitle = useSelector(state => state.products.banner1Subtitle)
+  // const banner2Title = useSelector(state => state.products.banner2Title)
+  // const banner2Subtitle = useSelector(state => state.products.banner2Subtitle)
 
   const [section, setSection] = useState('categories')
+  const [storeId, setStoreId] = useState(getStoreId())
+  const [storeName, setStoreName] = useState(getStoreName())
+  const [departmentName, setDepartmentName] = useState(getDepartmentName() || '')
+  const [banner1Title, setBanner1Title] = useState(getBanner1Title() || 'Veja aqui')
+  const [banner1Subtitle, setBanner1Subtitle] = useState(
+    getBanner1Subtitle() || 'Todas as opções de decoração'
+  )
+  const [banner2Title, setBanner2Title] = useState(getBanner2Title() || 'Renove sua Casa')
+  const [banner2Subtitle, setBanner2Subtitle] = useState(
+    getBanner2Subtitle() || 'Com os melhores descontos e as melhores marcas'
+  )
   const [selectAll, toggleSelectAll] = useState(false)
   // const [filteredCategories, setFilteredCategories] = useState([])
   // const [departmentName, setDepartmentName] = useState('')
@@ -80,19 +103,16 @@ const Setup = () => {
   }
 
   const handleSelectStore = selection => {
-    if (selection._id === storeId) return
+    if (selection.store_id === storeId) return
 
-    dispatch(ProductsActions.setStoreId(selection.store_id))
+    console.log('selection name', selection.name)
+
+    setStoreId(selection.store_id)
+    setStoreName(selection.name)
+    // dispatch(ProductsActions.setStoreId(selection.store_id))
     // setDepartment({})
     // toggleSelectAll(false)
     // dispatch(ProductsActions.getDepartmentsRequest(selection.id))
-  }
-
-  const handleInput = e => {
-    const { name, value } = e.target
-
-    dispatch(ProductsActions.setAttrValue(name, value))
-    // name === 'departmentName' && setDepartmentName(value)
   }
 
   const handleFilterCategories = selection => {
@@ -127,9 +147,20 @@ const Setup = () => {
     // dispatch(ProductsActions.getCategoriesRequest())
   }
 
+  // const setDefaultStore = () => {
+  //   const store = stores.length && stores.find(store => store.store_id === getStoreId())
+
+  //   // return { _id: store._id, name: store.name }
+  //   return { name: 'Loja Tietê', _id: '5de00291fb2cee15640298c2' }
+  // }
+
   const handleSubmit = () => {
+    console.log('storeId', storeId)
+    console.log('storeName', storeName)
+
     persistData({
       storeId,
+      storeName,
       departmentName,
       banner1Title,
       banner1Subtitle,
@@ -137,8 +168,14 @@ const Setup = () => {
       banner2Subtitle,
       selectedCategories: categories
         .filter(category => category.isSelected)
-        .map(category => ({ id: category._id, name: category.name, image: category.picture }))
+        .map(category => category._id)
+        .join(',')
+      // selectedCategories: categories
+      //   .filter(category => category.isSelected)
+      //   .map(category => ({ id: category._id, name: category.name, image: category.picture }))
     })
+
+    setEditSetup('false')
 
     history.push('/home')
   }
@@ -175,7 +212,8 @@ const Setup = () => {
               <Select
                 options={stores}
                 getOptionLabel={({ name }) => name}
-                getOptionValue={({ _id }) => _id}
+                getOptionValue={({ store_id }) => store_id}
+                defaultValue={storeName ? { name: storeName, store_id: storeId } : null}
                 placeholder="Selecione a Unidade"
                 isSearchable={false}
                 isLoading={loading}
@@ -262,7 +300,7 @@ const Setup = () => {
               name="departmentName"
               placeholder="Digite o Nome"
               value={departmentName}
-              onChange={handleInput}
+              onChange={e => setDepartmentName(e.target.value)}
             />
           </InputWrapper>
 
@@ -275,7 +313,7 @@ const Setup = () => {
               name="banner1Title"
               placeholder="Digite o Título"
               value={banner1Title}
-              onChange={handleInput}
+              onChange={e => setBanner1Title(e.target.value)}
             />
           </InputWrapper>
 
@@ -286,7 +324,7 @@ const Setup = () => {
               name="banner1Subtitle"
               placeholder="Digite o Subtítulo"
               value={banner1Subtitle}
-              onChange={handleInput}
+              onChange={e => setBanner1Subtitle(e.target.value)}
             />
           </InputWrapper>
 
@@ -299,7 +337,7 @@ const Setup = () => {
               name="banner2Title"
               placeholder="Digite o Título"
               value={banner2Title}
-              onChange={handleInput}
+              onChange={e => setBanner2Title(e.target.value)}
             />
           </InputWrapper>
 
@@ -310,7 +348,7 @@ const Setup = () => {
               name="banner2Subtitle"
               placeholder="Digite o Subtítulo"
               value={banner2Subtitle}
-              onChange={handleInput}
+              onChange={e => setBanner2Subtitle(e.target.value)}
             />
           </InputWrapper>
         </Content>

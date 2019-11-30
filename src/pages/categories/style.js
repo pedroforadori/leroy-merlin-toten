@@ -1,32 +1,33 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import theme from '../../styles/theme'
 
-export const MainImage = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* background-image: url(${({ src }) => src}); */
-  background-position: center;
-  background-size: cover;
-  height: 0; /* 158px; */
-  max-width: 100%;
+// export const MainImage = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   background-image: url(${({ src }) => src});
+//   background-position: center;
+//   background-size: cover;
+//   height: 77px; /* 158px; */
+//   max-width: 100%;
 
-  div {
-    z-index: 1;
-    font-size: 64px;
-    font-weight: ${theme.fontSemibold};
-    color: ${theme.primaryDefault};
-    text-align: center;
-  }
-`
+//   div {
+//     z-index: 1;
+//     font-size: 64px;
+//     line-height: 77px;
+//     font-weight: ${theme.fontSemibold};
+//     color: ${theme.primaryDefault};
+//     text-align: center;
+//   }
+// `
 
 export const Container = styled.div`
   display: grid;
   grid-gap: 50px;
   grid-template-columns: repeat(auto-fit, 198px);
   justify-content: center;
-  padding: 100px 50px;
+  padding: 30px 50px 100px;
 `
 
 export const Category = styled.div`
@@ -72,4 +73,19 @@ export const Category = styled.div`
     transition: all 0.2s ease;
     opacity: 0;
   }
+`
+
+export const WrapperCenter = styled.div`
+  /* ${({ loadingCategories }) =>
+    loadingCategories
+      ? css`
+          height: calc(100% - 107px);
+        `
+      : css`
+          height: 100%;
+        `}; */
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `

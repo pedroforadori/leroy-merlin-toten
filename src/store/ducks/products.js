@@ -1,5 +1,4 @@
 export const Types = {
-  SET_ATTR_VALUE: 'products/SET_ATTR_VALUE',
   GET_STORES_REQUEST: 'products/GET_STORES_REQUEST',
   GET_STORES_SUCCESS: 'products/GET_STORES_SUCCESS',
   SET_STORE_ID: 'products/SET_STORE_ID',
@@ -36,8 +35,6 @@ const INITIAL_STATE = {
 
 export default function products(state = INITIAL_STATE, action) {
   switch (action.type) {
-    case Types.SET_ATTR_VALUE:
-      return { ...state, [action.name]: action.value }
     case Types.GET_STORES_REQUEST:
       return { ...state, loading: true }
     case Types.GET_STORES_SUCCESS:
@@ -57,7 +54,7 @@ export default function products(state = INITIAL_STATE, action) {
     //     departments: action.data
     //   }
     case Types.GET_CATEGORIES_REQUEST:
-      return { ...state, loadingCategories: true }
+      return { ...state, loadingCategories: true, categories: [] }
     case Types.GET_CATEGORIES_SUCCESS:
       return {
         ...state,
@@ -88,11 +85,6 @@ export default function products(state = INITIAL_STATE, action) {
 }
 
 export const Creators = {
-  setAttrValue: (name, value) => ({
-    type: Types.SET_ATTR_VALUE,
-    name,
-    value
-  }),
   getStoresRequest: () => ({
     type: Types.GET_STORES_REQUEST
   }),
@@ -112,10 +104,9 @@ export const Creators = {
     type: Types.GET_DEPARTMENTS_SUCCESS,
     data
   }),
-  getCategoriesRequest: (storeId, filterSelected) => ({
+  getCategoriesRequest: selectedCategories => ({
     type: Types.GET_CATEGORIES_REQUEST,
-    storeId,
-    filterSelected
+    selectedCategories
   }),
   getCategoriesSuccess: data => ({
     type: Types.GET_CATEGORIES_SUCCESS,

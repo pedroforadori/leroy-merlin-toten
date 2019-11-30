@@ -3,8 +3,10 @@ import styled from 'styled-components'
 import theme from '../../styles/theme'
 
 export const Container = styled.div`
-  display: flex;
+  display: inline-flex;
+  align-items: center;
   margin: 0 0 25px 44px;
+  cursor: pointer;
 
   span {
     color: ${theme.primaryDefault};

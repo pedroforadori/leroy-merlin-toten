@@ -4,19 +4,17 @@ import { Container } from './style'
 
 import ArrowIcon from '../../components/icons/ArrowIcon'
 
-const GoBackLink = props => {
+export default function GoBackLink({ children, ...props }) {
+  let history = useHistory()
 
-    let history = useHistory();
+  const handleClick = () => {
+    history.goBack()
+  }
 
-    const handleClick = () => {
-        props.goBack ? history.goBack() : history.push(props.path);
-    };
-
-    return(
-        <Container onClick={handleClick} >
-            <ArrowIcon /><span> Voltar para {props.children}</span> 
-        </Container>
-    )
+  return (
+    <Container onClick={handleClick}>
+      <ArrowIcon />
+      <span> Voltar para {children}</span>
+    </Container>
+  )
 }
-
-export default GoBackLink;
