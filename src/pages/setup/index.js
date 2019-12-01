@@ -84,7 +84,7 @@ const Setup = () => {
   const dispatch = useDispatch()
 
   const handleCategoryCheck = id => {
-    const newCategories = [...categories]
+    let newCategories = [...categories]
 
     // newCategories[index] = { ...categories[index], isSelected: !categories[index].isSelected }
     // setFilteredCategories(filteredCategories.map(category => category))
@@ -199,7 +199,7 @@ const Setup = () => {
           </TabTitle>
 
           <TabTitle isSelected={section === 'banner'} onClick={() => setSection('banner')}>
-            <p>Banner</p>
+            <p>Departamento & Banners</p>
             <div />
           </TabTitle>
         </TabWrapper>
@@ -213,11 +213,11 @@ const Setup = () => {
                 options={stores}
                 getOptionLabel={({ name }) => name}
                 getOptionValue={({ store_id }) => store_id}
-                defaultValue={storeName ? { name: storeName, store_id: storeId } : null}
+                defaultValue={storeName ? { name: storeName, store_id: storeId } : ''}
                 placeholder="Selecione a Unidade"
                 isSearchable={false}
                 isLoading={loading}
-                loadingMessage="Carregando..."
+                loadingMessage={() => 'Carregando lojas...'}
                 styles={selectStyle}
                 onChange={handleSelectStore}
                 theme={defaultTheme => ({
@@ -231,7 +231,7 @@ const Setup = () => {
             </SelectWrapper>
 
             <SelectWrapper>
-              <Label>Selecione um Departamento</Label>
+              <Label>Busque uma Categoria</Label>
 
               <Select
                 options={categories}
@@ -242,7 +242,7 @@ const Setup = () => {
                 isSearchable
                 isClearable
                 isLoading={loadingCategories}
-                loadingMessage="Carregando..."
+                loadingMessage={() => 'Carregando categorias...'}
                 // isDisabled={!categories.length}
                 styles={selectStyle}
                 onChange={handleFilterCategories}
@@ -267,10 +267,10 @@ const Setup = () => {
           ) : (
             <Categories>
               <Wrapper>
-                <Label>Selecione as Categorias do Departamento</Label>
+                <Label>Selecione as Categorias da Unidade</Label>
                 <SelectAll onClick={handleSelectAll}>{`${
                   selectAll ? 'Des' : 'S'
-                }elecionar todos`}</SelectAll>
+                }elecionar todas`}</SelectAll>
               </Wrapper>
 
               <Grid>

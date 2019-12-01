@@ -41,7 +41,17 @@ export default function products(state = INITIAL_STATE, action) {
       return {
         ...state,
         loading: false,
-        stores: action.data
+        stores: [
+          ...action.data
+          // {
+          //   created_at: '2019-12-01 15:00:29',
+          //   name: 'Loja Ibirapuera',
+          //   region: 'grande_sao_paulo',
+          //   store_id: '0083',
+          //   updated_at: '2019-12-01 15:00:29',
+          //   _id: '5de00291fb2cee15640298c3'
+          // }
+        ]
       }
     case Types.SET_STORE_ID:
       return { ...state, storeId: action.storeId }
