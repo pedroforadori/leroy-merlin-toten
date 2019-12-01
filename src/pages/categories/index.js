@@ -43,14 +43,14 @@ const Categories = () => {
   }, [dispatch])
 
   const handleClick = (id, name) => {
-    ga.event({
-      storeId: getStoreId(),
-      storeName: getStoreName(),
-      departmentName: getDepartmentName(),
-      category: 'Categorias',
-      action: 'Selecionar categoria',
-      label: name
-    })
+    // ga.event({
+    //   storeId: getStoreId(),
+    //   storeName: getStoreName(),
+    //   departmentName: getDepartmentName(),
+    //   category: 'Categorias',
+    //   action: 'Selecionar categoria',
+    //   label: name
+    // })
 
     history.push(`/categories/${id}/${name}`)
   }

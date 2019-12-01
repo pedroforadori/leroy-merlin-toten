@@ -48,7 +48,7 @@ const Products = props => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    ga.pageview(history.location.pathname)
+    ga.pageview(`categorias/${categoryName}`)
 
     ga.set({
       categoryId,

@@ -44,7 +44,7 @@ const ProductDetails = () => {
     console.log('device', MediaDeviceInfo.name)
 
     if (productDetails.lm_leroy) {
-      ga.pageview(history.location.pathname)
+      ga.pageview(`produtos/${productDetails.name}`)
 
       ga.set({
         productId: productDetails.lm_leroy,
