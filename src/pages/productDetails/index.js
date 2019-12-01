@@ -13,16 +13,20 @@ import { Creators as ProductsActions } from '../../store/ducks/products'
 import { currencyDisplay } from '../../utils/currency'
 
 import { Container, WrapperCenter, Title, MainPage, ImageProduct, Details, Price } from './style'
-import { getStoreId, getEditSetup } from '../../services/auth'
+
+import { ga, initializeReactGA } from '../../services/analytics'
+import { getEditSetup, getStoreId, getStoreName, getDepartmentName } from '../../services/auth'
 
 import productPlaceholder from '../../assets/images/product_placeholder.png'
 import ImageViewer from '../../components/ImageViewer'
 
 const ProductDetails = () => {
   let history = useHistory()
-  const { productId, categoryName } = useParams()
+  const { categoryId, categoryName, productId } = useParams()
 
   if (!getStoreId() || getEditSetup() === 'true') history.push('/setup')
+
+  // if (!ga) initializeReactGA(getStoreId, getStoreName, getDepartmentName)
 
   const productDetails = useSelector(state => state.products.productDetails)
   const loading = useSelector(state => state.products.loading)
@@ -36,8 +40,53 @@ const ProductDetails = () => {
     dispatch(ProductsActions.getProductDetailsRequest(getStoreId(), productId))
   }, [dispatch, productId])
 
-  console.log('image', productDetails.pictures)
-  console.log('image', productDetails.pictures && productDetails.pictures[imageIndex].url)
+  useEffect(() => {
+    console.log('device', MediaDeviceInfo.name)
+
+    if (productDetails.lm_leroy) {
+      ga.pageview(history.location.pathname)
+
+      ga.set({
+        productId: productDetails.lm_leroy,
+        productName: productDetails.name,
+        categoryId,
+        categoryName,
+        storeId: getStoreId(),
+        storeName: getStoreName(),
+        departmentName: getDepartmentName()
+      })
+
+      const payload = {
+        device_id: `${getStoreId()} - ${getDepartmentName()}`,
+        departament: getDepartmentName(),
+        category: {
+          id: categoryId,
+          name: categoryName
+        },
+        product: {
+          id: productDetails._id,
+          id_leroy: productDetails.lm_leroy,
+          name: productDetails.name
+        },
+        store_id: getStoreId(),
+        name: history.location.pathname
+      }
+
+      dispatch(ProductsActions.postLogRequest(payload))
+    }
+  }, [
+    categoryId,
+    categoryName,
+    dispatch,
+    history.location.pathname,
+    loading,
+    productDetails._id,
+    productDetails.lm_leroy,
+    productDetails.name
+  ])
+
+  // console.log('image', productDetails.pictures)
+  // console.log('image', productDetails.pictures && productDetails.pictures[imageIndex].url)
 
   return (
     <>

@@ -118,3 +118,13 @@ export function* getProductDetails(action) {
     console.log(err)
   }
 }
+
+export function* postLog(action) {
+  try {
+    const response = yield retry(10, 5000, productsApi.post, '/log', action.payload)
+
+    yield put(ProductActions.postLogSuccess(response.data))
+  } catch (err) {
+    console.log(err)
+  }
+}

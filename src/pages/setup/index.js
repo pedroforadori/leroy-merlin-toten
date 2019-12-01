@@ -34,6 +34,7 @@ import LoadingIcon from '../../components/icons/LoadingIcon'
 
 import { Creators as ProductsActions } from '../../store/ducks/products'
 
+// import { ga, initializeReactGA } from '../../services/analytics'
 import {
   getEditSetup,
   setEditSetup,
@@ -155,8 +156,7 @@ const Setup = () => {
   // }
 
   const handleSubmit = () => {
-    console.log('storeId', storeId)
-    console.log('storeName', storeName)
+    // initializeReactGA(storeId, storeName, departmentName)
 
     persistData({
       storeId,

@@ -11,17 +11,21 @@ import LoadingFill from '../../components/LoadingFill'
 
 import { Creators as ProductsActions } from '../../store/ducks/products'
 
+import { ga, initializeReactGA } from '../../services/analytics'
 import {
-  getStoreId,
   getEditSetup,
+  getStoreId,
+  getStoreName,
+  getDepartmentName,
   getSelectedCategories
-  // getDepartmentName,
 } from '../../services/auth'
 
 const Categories = () => {
   let history = useHistory()
 
   if (!getStoreId() || getEditSetup() === 'true') history.push('/setup')
+
+  // if (!ga) initializeReactGA(getStoreId, getStoreName, getDepartmentName)
 
   const categories = useSelector(state => state.products.categories)
 
@@ -38,7 +42,20 @@ const Categories = () => {
     dispatch(ProductsActions.getCategoriesRequest(getSelectedCategories()))
   }, [dispatch])
 
-  console.log('categories selected', categories)
+  const handleClick = (id, name) => {
+    ga.event({
+      storeId: getStoreId(),
+      storeName: getStoreName(),
+      departmentName: getDepartmentName(),
+      category: 'Categorias',
+      action: 'Selecionar categoria',
+      label: name
+    })
+
+    history.push(`/categories/${id}/${name}`)
+  }
+
+  // console.log('categories selected', categories)
 
   return (
     <>
@@ -61,7 +78,7 @@ const Categories = () => {
               <Category
                 key={category._id}
                 src={category.picture}
-                onClick={() => history.push(`/categories/${category._id}/${category.name}`)}
+                onClick={() => handleClick(category._id, category.name)}
               >
                 <div>
                   <div>{category.name}</div>

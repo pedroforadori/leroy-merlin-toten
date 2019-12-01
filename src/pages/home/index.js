@@ -18,18 +18,22 @@ import { Image } from './style'
 
 import { Creators as ProductsActions } from '../../store/ducks/products'
 
+// import { ga, initializeReactGA } from '../../services/analytics'
 import {
-  getStoreId,
   getEditSetup,
+  getStoreId,
+  getStoreName,
+  getDepartmentName,
   getBanner1Title,
   getBanner1Subtitle,
   getBanner2Title,
   getBanner2Subtitle
 } from '../../services/auth'
-import { dispatch } from 'rxjs/internal/observable/range'
 
 const Home = () => {
   let history = useHistory()
+
+  // if (!ga) initializeReactGA(getStoreId, getStoreName, getDepartmentName)
 
   const dispatch = useDispatch()
 

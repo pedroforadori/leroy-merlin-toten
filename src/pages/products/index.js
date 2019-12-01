@@ -24,9 +24,11 @@ import RedirectTimer from '../../components/RedirectTimer'
 
 import { Creators as ProductsActions } from '../../store/ducks/products'
 
+import { ga, initializeReactGA } from '../../services/analytics'
 import {
-  getStoreId,
   getEditSetup,
+  getStoreId,
+  getStoreName,
   getDepartmentName,
   getSelectedCategories
 } from '../../services/auth'
@@ -38,14 +40,55 @@ const Products = props => {
 
   if (!getStoreId() || getEditSetup() === 'true') history.push('/setup')
 
+  // if (!ga) initializeReactGA(getStoreId, getStoreName, getDepartmentName)
+
   const loading = useSelector(state => state.products.loading)
   const products = useSelector(state => state.products.products)
 
   const dispatch = useDispatch()
 
   useEffect(() => {
+    ga.pageview(history.location.pathname)
+
+    ga.set({
+      categoryId,
+      categoryName,
+      storeId: getStoreId(),
+      storeName: getStoreName(),
+      departmentName: getDepartmentName()
+    })
+
+    const payload = {
+      device_id: `${getStoreId()} - ${getDepartmentName()}`,
+      departament: getDepartmentName(),
+      category: {
+        id: categoryId,
+        name: categoryName
+      },
+      store_id: getStoreId(),
+      name: history.location.pathname
+    }
+
+    dispatch(ProductsActions.postLogRequest(payload))
+
     dispatch(ProductsActions.getProductsRequest(getStoreId(), categoryId))
-  }, [categoryId, dispatch])
+  }, [categoryId, categoryName, dispatch, history.location.pathname])
+
+  const handleClick = (productId, productName, productCode) => {
+    // ga.event({
+    //   category: 'Produtos',
+    //   action: 'Selecionar produto',
+    //   label: productName,
+    //   productId,
+    //   productCode,
+    //   categoryName,
+    //   storeId: getStoreId(),
+    //   storeName: getStoreName(),
+    //   departmentName: getDepartmentName()
+    // })
+
+    history.push(`/categories/${categoryId}/${categoryName}/product/${productId}`)
+  }
 
   return (
     <>
@@ -69,17 +112,15 @@ const Products = props => {
             <Container>
               {products.map(product => (
                 <ProductCard
-                  key={product.id}
-                  onClick={() =>
-                    history.push(`/categories/${categoryId}/${categoryName}/product/${product._id}`)
-                  }
+                  key={product._id}
+                  onClick={() => handleClick(product._id, product.name, product.lm_leroy)}
                 >
                   <ProductImg src={product.pictures[0].url || productPlaceholder} />
                   <BoxDecription>
                     <DescriptionProduct>
-                      <p>{product.name || 'Sample Title'}</p>
+                      <p>{product.name}</p>
                     </DescriptionProduct>
-                    <IdProduct>(Cod. {product.lm_leroy || '9192332'})</IdProduct>
+                    <IdProduct>(Cod. {product.lm_leroy})</IdProduct>
                     {product.prices && product.prices.price ? (
                       <PriceProduct>
                         R$

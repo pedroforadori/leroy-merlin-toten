@@ -7,7 +7,6 @@ export default function ScrollToTop() {
 
   const handleListener = (location, action) => {
     action !== 'POP' && window.scrollTo(0, 0)
-    console.log('POP')
   }
 
   useEffect(() => {
