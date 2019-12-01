@@ -5,7 +5,7 @@ import CarouselTitle from '../../components/CarouselTitle'
 
 import {
   Container,
-  Category,
+  ProductCard,
   DescriptionProduct,
   IdProduct,
   PriceProduct,
@@ -19,7 +19,6 @@ import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import ProductImg from '../../components/ProductImg'
 import GoBackLink from '../../components/GoBackLink'
-import LoadingIcon from '../../components/icons/LoadingIcon'
 import LoadingFill from '../../components/LoadingFill'
 import RedirectTimer from '../../components/RedirectTimer'
 
@@ -40,9 +39,7 @@ const Products = props => {
   if (!getStoreId() || getEditSetup() === 'true') history.push('/setup')
 
   const loading = useSelector(state => state.products.loading)
-  const categories = useSelector(state => state.products.categories)
   const products = useSelector(state => state.products.products)
-  // const departmentName = useSelector(state => state.products.departmentName)
 
   const dispatch = useDispatch()
 
@@ -71,7 +68,7 @@ const Products = props => {
           {products.length ? (
             <Container>
               {products.map(product => (
-                <Category
+                <ProductCard
                   key={product.id}
                   onClick={() =>
                     history.push(`/categories/${categoryId}/${categoryName}/product/${product._id}`)
@@ -108,7 +105,7 @@ const Products = props => {
                     )}
                     {/* <PortionProduct>12x de R$ 3,15 sem juros</PortionProduct> */}
                   </BoxDecription>
-                </Category>
+                </ProductCard>
               ))}
             </Container>
           ) : (

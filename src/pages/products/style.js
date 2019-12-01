@@ -11,7 +11,7 @@ export const Container = styled.div`
   padding: 0 47px 80px 47px;
 `
 
-export const Category = styled.div`
+export const ProductCard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,6 +21,7 @@ export const Category = styled.div`
   box-sizing: border-box;
   padding: 10px;
   border-radius: 8px;
+  cursor: pointer;
 `
 
 export const NotFoundWrapper = styled.div`
