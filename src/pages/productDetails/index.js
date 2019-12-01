@@ -41,8 +41,6 @@ const ProductDetails = () => {
   }, [dispatch, productId])
 
   useEffect(() => {
-    console.log('device', MediaDeviceInfo.name)
-
     if (productDetails.lm_leroy) {
       ga.pageview(`produtos/${productDetails.name}`)
 
