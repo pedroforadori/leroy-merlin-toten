@@ -1,16 +1,19 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
-import CarouselTitle from '../../components/CarouselTitle'
+import Select from 'react-select'
 
 import {
+  selectStyle,
+  selectTheme,
   Container,
   ProductCard,
   DescriptionProduct,
   IdProduct,
   PriceProduct,
   BoxDecription,
-  NotFoundWrapper
+  NotFoundWrapper,
+  SelectWrapper
 } from './style'
 
 import productPlaceholder from '../../assets/images/product_placeholder.png'
@@ -21,6 +24,8 @@ import ProductImg from '../../components/ProductImg'
 import GoBackLink from '../../components/GoBackLink'
 import LoadingFill from '../../components/LoadingFill'
 import RedirectTimer from '../../components/RedirectTimer'
+
+import CarouselTitle from '../../components/CarouselTitle'
 
 import { Creators as ProductsActions } from '../../store/ducks/products'
 
@@ -38,12 +43,15 @@ const Products = props => {
   let history = useHistory()
   let { categoryId, categoryName } = useParams()
 
-  if (!getStoreId() || getEditSetup() === 'true') history.push('/setup')
-
-  // if (!ga) initializeReactGA(getStoreId, getStoreName, getDepartmentName)
-
   const loading = useSelector(state => state.products.loading)
   const products = useSelector(state => state.products.products)
+  const brands = useSelector(state => state.products.brands)
+  const colors = useSelector(state => state.products.colors)
+
+  const [brand, setBrand] = useState()
+  const [color, setColor] = useState()
+
+  if (!getStoreId() || getEditSetup() === 'true') history.push('/setup')
 
   const dispatch = useDispatch()
 
@@ -58,7 +66,7 @@ const Products = props => {
       dimension4: getDepartmentName() // ga('set', 'dimension4', dimensionValue);
     })
 
-    const payload = {
+    const logPayload = {
       device_id: `${getStoreId()} - ${getDepartmentName()}`,
       departament: getDepartmentName(),
       category: {
@@ -69,10 +77,43 @@ const Products = props => {
       name: history.location.pathname
     }
 
-    dispatch(ProductsActions.sendLogRequest(payload))
+    dispatch(ProductsActions.sendLogRequest(logPayload))
 
-    dispatch(ProductsActions.getProductsRequest(getStoreId(), categoryId))
-  }, [categoryId, categoryName, dispatch, history.location.pathname])
+    const payload = {
+      store_id: getStoreId(),
+      categories: categoryId,
+      brands: brand && brand.value,
+      colors: color && color.value
+    }
+
+    console.log('payload', payload)
+
+    dispatch(ProductsActions.getProductsRequest(payload))
+  }, [brand, categoryId, categoryName, color, dispatch, history.location.pathname])
+
+  const handleSelectBrand = selection => {
+    if (brand && selection.value === brand.value) return
+
+    setBrand(selection)
+  }
+
+  const handleSelectColor = selection => {
+    if (color && selection.value === color.value) return
+
+    setColor(selection)
+  }
+
+  const handleClearFilters = () => {
+    setBrand()
+    setColor()
+
+    const payload = {
+      store_id: getStoreId(),
+      categories: categoryId
+    }
+
+    dispatch(ProductsActions.getProductsRequest(payload))
+  }
 
   const handleClick = (productId, productName, productCode) => {
     // ga.event({
@@ -90,6 +131,8 @@ const Products = props => {
     history.push(`/categories/${categoryId}/${categoryName}/product/${productId}`)
   }
 
+  console.log('brands', brands)
+
   return (
     <>
       <RedirectTimer />
@@ -106,7 +149,49 @@ const Products = props => {
             <GoBackLink>{getDepartmentName()}</GoBackLink>
           )}
 
-          <CarouselTitle text={categoryName}></CarouselTitle>
+          <SelectWrapper>
+            <p>
+              Listar <span>{categoryName}</span> com
+            </p>
+
+            <Select
+              options={brands.map(brand => ({ label: brand[0], value: brand[0] }))}
+              defaultValue={brand}
+              placeholder="Marca"
+              isSearchable={false}
+              styles={selectStyle}
+              onChange={handleSelectBrand}
+              theme={defaultTheme => ({
+                ...defaultTheme,
+                colors: {
+                  ...defaultTheme.colors,
+                  ...selectTheme
+                }
+              })}
+            />
+
+            <p>+</p>
+
+            <Select
+              options={colors.map(color => ({ label: color[0], value: color[0] }))}
+              defaultValue={color}
+              placeholder="Cores"
+              isSearchable={false}
+              styles={selectStyle}
+              onChange={handleSelectColor}
+              theme={defaultTheme => ({
+                ...defaultTheme,
+                colors: {
+                  ...defaultTheme.colors,
+                  ...selectTheme
+                }
+              })}
+            />
+
+            <p onClick={handleClearFilters}>Limpar Filtros</p>
+          </SelectWrapper>
+
+          <CarouselTitle text={categoryName} />
 
           {products.length ? (
             <Container>

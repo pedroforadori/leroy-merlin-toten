@@ -2,6 +2,58 @@ import styled from 'styled-components'
 
 import theme from '../../styles/theme'
 
+export const selectStyle = {
+  control: (provided, state) => ({
+    ...provided,
+    minHeight: 30,
+    maxHeight: 30,
+    width: 130,
+    border: `1px solid ${state.isDisabled ? theme.gray : theme.primaryDefault} !important`,
+    borderRadius: 27,
+    paddingRight: 8,
+    boxShadow: state.isFocused || state.isSelected ? `0 0 0 1px ${theme.primaryDefault}` : ''
+  }),
+  container: (provided, state) => ({
+    ...provided,
+    fontSize: 14,
+    lineHeight: '17px',
+    margin: '0 11px'
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    color: state.isSelected ? 'white' : theme.primaryDefault,
+    backgroundColor: state.isSelected ? theme.primaryDefault : 'white',
+    opacity: state.isSelected ? 0.8 : 1
+  }),
+  singleValue: (provided, state) => ({
+    ...provided,
+    color: theme.primaryDefault,
+    fontSize: 14,
+    lineHeight: '27px',
+    fontWeight: 700
+  })
+}
+
+export const selectTheme = {
+  primary: theme.primaryDefault,
+  primary75: theme.primaryDefault,
+  primary50: theme.primaryDefault02,
+  primary25: theme.primaryDefault,
+  neutral0: theme.white,
+  neutral5: theme.darkGray04,
+  neutral10: theme.darkGray04,
+  neutral20: theme.primaryDefault,
+  neutral30: theme.darkGray04,
+  neutral40: theme.darkGray04,
+  neutral50: theme.primaryDefault,
+  neutral60: theme.darkGray04,
+  neutral70: theme.darkGray04,
+  neutral80: theme.darkGray04,
+  neutral90: theme.darkGray04,
+  danger: theme.red,
+  dangerLight: theme.red
+}
+
 export const Container = styled.div`
   display: grid;
   grid-column-gap: 22px;
@@ -30,7 +82,7 @@ export const NotFoundWrapper = styled.div`
   align-items: center;
   font-size: 24px;
   color: ${theme.darkGray};
-  height: calc(100% - 262px);
+  height: calc(100% - 292px);
 `
 
 export const BoxDecription = styled.div`
@@ -92,4 +144,41 @@ export const PortionProduct = styled.div`
   line-height: 14px;
 
   color: ${theme.darkGray};
+`
+
+export const SelectWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  padding-left: 50px;
+
+  p {
+    font-size: 14px;
+    line-height: 17px;
+    color: ${theme.darkGray};
+
+    :last-child {
+      color: ${theme.primaryDefault};
+      font-weight: 700;
+      margin-left: 27px;
+      cursor: pointer;
+    }
+
+    span {
+      font-weight: 600;
+    }
+  }
+
+  div {
+    div:nth-of-type(1) {
+      div {
+        span {
+          display: none;
+        }
+
+        > div {
+          padding: 0;
+        }
+      }
+    }
+  }
 `

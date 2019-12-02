@@ -1,5 +1,6 @@
 export default {
   primaryDefault: '#78BE20',
+  primaryDefault02: '#78BE2055',
   primaryPressed: '#679E18',
   darkGreen: '#397615',
   lightGreen: '#D4EB8E',

@@ -93,12 +93,7 @@ export function* getCategoriesById(action) {
 
 export function* getProducts(action) {
   try {
-    const payload = {
-      store_id: action.storeId,
-      categories: action.categoryId
-    }
-
-    const qs = querystring.stringify(payload, { addQueryPrefix: true })
+    const qs = querystring.stringify(action.payload, { addQueryPrefix: true, skipNulls: true })
 
     const response = yield retry(10, 2000, productsApi.get, `/products${qs}`)
 

@@ -34,7 +34,6 @@ import LoadingIcon from '../../components/icons/LoadingIcon'
 
 import { Creators as ProductsActions } from '../../store/ducks/products'
 
-// import { ga, initializeReactGA } from '../../services/analytics'
 import {
   getEditSetup,
   setEditSetup,
@@ -104,7 +103,7 @@ const Setup = () => {
   const handleSelectStore = selection => {
     if (selection.store_id === storeId) return
 
-    console.log('selection name', selection.name)
+    // console.log('selection name', selection.name)
 
     setStoreId(selection.store_id)
     setStoreName(selection.name)
@@ -135,7 +134,7 @@ const Setup = () => {
       filteredCategories = categories.map(category => ({ ...category, hidden: false }))
     }
 
-    console.log(filteredCategories)
+    // console.log(filteredCategories)
 
     dispatch(ProductsActions.setCategories(filteredCategories))
 

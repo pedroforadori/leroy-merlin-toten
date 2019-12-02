@@ -31,6 +31,8 @@ const INITIAL_STATE = {
   // departments: [],
   categories: [],
   categoriesSelected: [],
+  brands: [],
+  colors: [],
   products: [],
   productDetails: {},
   loading: false,
@@ -48,17 +50,44 @@ export default function products(state = INITIAL_STATE, action) {
     case Types.SET_STORE_ID:
       return { ...state, storeId: action.storeId }
     case Types.GET_CATEGORIES_REQUEST:
-      return { ...state, loadingCategories: true, categories: [], categoriesSelected: [] }
+      return {
+        ...state,
+        loadingCategories: true,
+        categories: [],
+        categoriesSelected: [],
+        brands: [],
+        colors: []
+      }
     case Types.GET_CATEGORIES_SUCCESS:
       return { ...state, loadingCategories: false, categories: action.data }
     case Types.GET_CATEGORIES_BY_ID_REQUEST:
-      return { ...state, loadingCategories: true, categories: [], categoriesSelected: [] }
+      return {
+        ...state,
+        loadingCategories: true,
+        categories: [],
+        categoriesSelected: [],
+        brands: [],
+        colors: []
+      }
     case Types.GET_CATEGORIES_BY_ID_SUCCESS:
       return { ...state, loadingCategories: false, categories: [], categoriesSelected: action.data }
     case Types.SET_CATEGORIES:
       return { ...state, categories: action.categories }
     case Types.GET_PRODUCTS_REQUEST:
-      return { ...state, loading: true, products: [], productDetails: {} }
+      return {
+        ...state,
+        loading: true,
+        products: [],
+        productDetails: {},
+        brands:
+          state.categoriesSelected.length &&
+          state.categoriesSelected.find(category => category._id === action.payload.categories)
+            .brands,
+        colors:
+          state.categoriesSelected.length &&
+          state.categoriesSelected.find(category => category._id === action.payload.categories)
+            .colors
+      }
     case Types.GET_PRODUCTS_SUCCESS:
       return { ...state, loading: false, products: action.data }
     case Types.GET_PRODUCT_DETAILS_REQUEST:
@@ -119,10 +148,9 @@ export const Creators = {
     categories
   }),
 
-  getProductsRequest: (storeId, categoryId) => ({
+  getProductsRequest: payload => ({
     type: Types.GET_PRODUCTS_REQUEST,
-    storeId,
-    categoryId
+    payload
   }),
   getProductsSuccess: data => ({
     type: Types.GET_PRODUCTS_SUCCESS,
