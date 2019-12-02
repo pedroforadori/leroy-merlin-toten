@@ -11,5 +11,5 @@ const rotate360 = keyframes`
 `
 
 export const Spinner = styled.svg`
-  animation: ${rotate360} 2s linear infinite;
+  animation: ${rotate360} 1s steps(8) infinite;
 `
