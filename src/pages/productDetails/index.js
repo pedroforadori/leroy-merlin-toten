@@ -46,12 +46,12 @@ const ProductDetails = () => {
 
       ga.set({
         productId: productDetails.lm_leroy,
-        productName: productDetails.name,
+        dimension2: productDetails.name, // ga('set', 'dimension2', dimensionValue);
         categoryId,
-        categoryName,
+        dimension1: categoryName,
         storeId: getStoreId(),
-        storeName: getStoreName(),
-        departmentName: getDepartmentName()
+        dimension3: getStoreName(),
+        dimension4: getDepartmentName()
       })
 
       const payload = {

@@ -52,10 +52,10 @@ const Products = props => {
 
     ga.set({
       categoryId,
-      categoryName,
+      dimension1: categoryName, // ga('set', 'dimension1', dimensionValue)
       storeId: getStoreId(),
-      storeName: getStoreName(),
-      departmentName: getDepartmentName()
+      dimension3: getStoreName(), // ga('set', 'dimension3', dimensionValue);
+      dimension4: getDepartmentName() // ga('set', 'dimension4', dimensionValue);
     })
 
     const payload = {
