@@ -1,17 +1,17 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, useRef } from 'react'
 import { useHistory } from 'react-router-dom'
 
 export default function RedirectTimer() {
   let history = useHistory()
 
-  let timer
+  let timer = useRef(null)
 
   const redirectHome = useCallback(() => history.push('/home'), [history])
 
   const startTimeout = useCallback(() => {
-    clearTimeout(timer)
+    clearTimeout(timer.current)
     // console.log('timeout started')
-    timer = setTimeout(redirectHome, 1 * 60 * 1000)
+    timer.current = setTimeout(redirectHome, 1 * 60 * 1000)
   }, [redirectHome])
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export default function RedirectTimer() {
       document.removeEventListener('change', startTimeout)
       document.removeEventListener('keypress', startTimeout)
       document.removeEventListener('touchstart', startTimeout)
-      clearTimeout(timer)
+      clearTimeout(timer.current)
       // console.log('removeEventListener startTimeout')
     }
   }, [startTimeout, timer])
