@@ -1,7 +1,7 @@
 import { retry, put } from 'redux-saga/effects'
 import querystring from 'qs'
 
-import { storesApi, categoriesApi, productsApi } from '../../services/api'
+import { storesApi, productsApi } from '../../services/api'
 
 import { Creators as ProductActions } from '../ducks/products'
 
@@ -44,20 +44,15 @@ export function* getStores() {
 //   }
 // }
 
-export function* getCategories(action) {
+export function* getCategories() {
   try {
-    const response = yield retry(
-      10,
-      2000,
-      productsApi.get,
-      action.selectedCategories ? `/categories?ids=${action.selectedCategories}` : '/categories'
-    )
+    const response = yield retry(10, 2000, productsApi.post, '/categories')
 
     let categories = response.data.data
 
     const categoriesSelected = getSelectedCategories() && getSelectedCategories().split(',')
 
-    if (categoriesSelected && !action.selectedCategories) {
+    if (categoriesSelected) {
       categories = categories.map(category =>
         categoriesSelected.includes(category._id) ? { ...category, isSelected: true } : category
       )
@@ -81,6 +76,16 @@ export function* getCategories(action) {
 
     // yield put(ProductActions.getCategoriesSuccess(filteredCategories || response.data.data))
     yield put(ProductActions.getCategoriesSuccess(categories))
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+export function* getCategoriesById(action) {
+  try {
+    const response = yield retry(10, 2000, productsApi.post, '/categories', action.payload)
+
+    yield put(ProductActions.getCategoriesByIdSuccess(response.data.data))
   } catch (err) {
     console.log(err)
   }
@@ -119,11 +124,11 @@ export function* getProductDetails(action) {
   }
 }
 
-export function* postLog(action) {
+export function* sendLog(action) {
   try {
     const response = yield retry(10, 5000, productsApi.post, '/log', action.payload)
 
-    yield put(ProductActions.postLogSuccess(response.data))
+    yield put(ProductActions.sendLogSuccess(response.data))
   } catch (err) {
     console.log(err)
   }

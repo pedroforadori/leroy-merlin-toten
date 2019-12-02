@@ -14,7 +14,7 @@ import { currencyDisplay } from '../../utils/currency'
 
 import { Container, WrapperCenter, Title, MainPage, ImageProduct, Details, Price } from './style'
 
-import { ga, initializeReactGA } from '../../services/analytics'
+import { ga } from '../../services/analytics'
 import { getEditSetup, getStoreId, getStoreName, getDepartmentName } from '../../services/auth'
 
 import productPlaceholder from '../../assets/images/product_placeholder.png'
@@ -25,8 +25,6 @@ const ProductDetails = () => {
   const { categoryId, categoryName, productId } = useParams()
 
   if (!getStoreId() || getEditSetup() === 'true') history.push('/setup')
-
-  // if (!ga) initializeReactGA(getStoreId, getStoreName, getDepartmentName)
 
   const productDetails = useSelector(state => state.products.productDetails)
   const loading = useSelector(state => state.products.loading)
@@ -70,7 +68,7 @@ const ProductDetails = () => {
         name: history.location.pathname
       }
 
-      dispatch(ProductsActions.postLogRequest(payload))
+      dispatch(ProductsActions.sendLogRequest(payload))
     }
   }, [
     categoryId,
@@ -95,11 +93,11 @@ const ProductDetails = () => {
       <GoBackLink>{categoryName}</GoBackLink>
 
       {loading ? (
-        <WrapperCenter loading={loading}>
+        <WrapperCenter loading={loading ? 'true' : undefined}>
           <LoadingIcon />
         </WrapperCenter>
       ) : !Object.keys(productDetails).length ? (
-        <WrapperCenter loading={!Object.keys(productDetails).length}>
+        <WrapperCenter loading={!Object.keys(productDetails).length ? 'true' : undefined}>
           Categoria sem produtos
         </WrapperCenter>
       ) : (

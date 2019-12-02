@@ -1,5 +1,4 @@
 import React, { useEffect, useCallback } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import Carousel from 're-carousel'
 
@@ -16,14 +15,9 @@ import home2Portrait from '../../assets/images/home2_portrait.png'
 import theme from '../../styles/theme'
 import { Image } from './style'
 
-import { Creators as ProductsActions } from '../../store/ducks/products'
-
-// import { ga, initializeReactGA } from '../../services/analytics'
 import {
   getEditSetup,
   getStoreId,
-  getStoreName,
-  getDepartmentName,
   getBanner1Title,
   getBanner1Subtitle,
   getBanner2Title,
@@ -33,12 +27,6 @@ import {
 const Home = () => {
   let history = useHistory()
 
-  // if (!ga) initializeReactGA(getStoreId, getStoreName, getDepartmentName)
-
-  const dispatch = useDispatch()
-
-  dispatch(ProductsActions.setCategories([]))
-
   if (!getStoreId() || getEditSetup() === 'true') history.push('/setup')
 
   const handleClick = useCallback(() => {
@@ -47,11 +35,9 @@ const Home = () => {
 
   useEffect(() => {
     document.addEventListener('click', handleClick)
-    // console.log('addEventListener')
 
     return () => {
       document.removeEventListener('click', handleClick)
-      // console.log('removeEventListener')
     }
   }, [handleClick])
 

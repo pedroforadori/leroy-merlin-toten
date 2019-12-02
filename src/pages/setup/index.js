@@ -51,8 +51,6 @@ import {
 const Setup = () => {
   let history = useHistory()
 
-  if (getEditSetup() === 'false') history.push('/home')
-
   // const storeId = useSelector(state => state.products.storeId)
 
   const stores = useSelector(state => state.products.stores)
@@ -181,9 +179,13 @@ const Setup = () => {
   }
 
   useEffect(() => {
-    dispatch(ProductsActions.getStoresRequest())
-    dispatch(ProductsActions.getCategoriesRequest())
-  }, [dispatch])
+    if (getEditSetup() === 'false') {
+      history.push('/home')
+    } else {
+      dispatch(ProductsActions.getStoresRequest())
+      dispatch(ProductsActions.getCategoriesRequest())
+    }
+  }, [dispatch, history])
 
   return (
     <>

@@ -6,6 +6,8 @@ export const Types = {
   GET_DEPARTMENTS_SUCCESS: 'products/GET_DEPARTMENTS_SUCCESS',
   GET_CATEGORIES_REQUEST: 'products/GET_CATEGORIES_REQUEST',
   GET_CATEGORIES_SUCCESS: 'products/GET_CATEGORIES_SUCCESS',
+  GET_CATEGORIES_BY_ID_REQUEST: 'products/GET_CATEGORIES_BY_ID_REQUEST',
+  GET_CATEGORIES_BY_ID_SUCCESS: 'products/GET_CATEGORIES_BY_ID_SUCCESS',
   SET_CATEGORIES: 'products/SET_CATEGORIES',
   // GET_SELECTED_CATEGORIES: 'products/GET_SELECTED_CATEGORIES',
   // SET_SELECTED_CATEGORIES: 'products/SET_SELECTED_CATEGORIES',
@@ -46,9 +48,13 @@ export default function products(state = INITIAL_STATE, action) {
     case Types.SET_STORE_ID:
       return { ...state, storeId: action.storeId }
     case Types.GET_CATEGORIES_REQUEST:
-      return { ...state, loadingCategories: true, categories: [] }
+      return { ...state, loadingCategories: true, categories: [], categoriesSelected: [] }
     case Types.GET_CATEGORIES_SUCCESS:
       return { ...state, loadingCategories: false, categories: action.data }
+    case Types.GET_CATEGORIES_BY_ID_REQUEST:
+      return { ...state, loadingCategories: true, categories: [], categoriesSelected: [] }
+    case Types.GET_CATEGORIES_BY_ID_SUCCESS:
+      return { ...state, loadingCategories: false, categories: [], categoriesSelected: action.data }
     case Types.SET_CATEGORIES:
       return { ...state, categories: action.categories }
     case Types.GET_PRODUCTS_REQUEST:
@@ -91,12 +97,20 @@ export const Creators = {
     data
   }),
 
-  getCategoriesRequest: selectedCategories => ({
-    type: Types.GET_CATEGORIES_REQUEST,
-    selectedCategories
+  getCategoriesRequest: () => ({
+    type: Types.GET_CATEGORIES_REQUEST
   }),
   getCategoriesSuccess: data => ({
     type: Types.GET_CATEGORIES_SUCCESS,
+    data
+  }),
+
+  getCategoriesByIdRequest: payload => ({
+    type: Types.GET_CATEGORIES_BY_ID_REQUEST,
+    payload
+  }),
+  getCategoriesByIdSuccess: data => ({
+    type: Types.GET_CATEGORIES_BY_ID_SUCCESS,
     data
   }),
 
@@ -125,11 +139,11 @@ export const Creators = {
     data
   }),
 
-  postLogRequest: payload => ({
+  sendLogRequest: payload => ({
     type: Types.POST_LOG_REQUEST,
     payload
   }),
-  postLogSuccess: response => ({
+  sendLogSuccess: response => ({
     type: Types.POST_LOG_SUCCESS,
     response
   })

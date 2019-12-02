@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
-import { MainImage, Container, Category, WrapperCenter } from './style'
+import { Container, Category } from './style'
 
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
@@ -11,23 +11,14 @@ import LoadingFill from '../../components/LoadingFill'
 
 import { Creators as ProductsActions } from '../../store/ducks/products'
 
-import { ga, initializeReactGA } from '../../services/analytics'
-import {
-  getEditSetup,
-  getStoreId,
-  getStoreName,
-  getDepartmentName,
-  getSelectedCategories
-} from '../../services/auth'
+import { getEditSetup, getStoreId, getSelectedCategories } from '../../services/auth'
 
 const Categories = () => {
   let history = useHistory()
 
   if (!getStoreId() || getEditSetup() === 'true') history.push('/setup')
 
-  // if (!ga) initializeReactGA(getStoreId, getStoreName, getDepartmentName)
-
-  const categories = useSelector(state => state.products.categories)
+  const categories = useSelector(state => state.products.categoriesSelected)
 
   if (categories.length === 1)
     history.push(`/categories/${categories[0]._id}/${categories[0].name}`)
@@ -36,10 +27,11 @@ const Categories = () => {
 
   const dispatch = useDispatch()
 
-  // const [selectedCategories, setSelectedCategories] = useState(getSelectedCategories())
-
   useEffect(() => {
-    dispatch(ProductsActions.getCategoriesRequest(getSelectedCategories()))
+    const ids = getSelectedCategories().split(',')
+    const payload = { ids }
+
+    dispatch(ProductsActions.getCategoriesByIdRequest(payload))
   }, [dispatch])
 
   const handleClick = (id, name) => {

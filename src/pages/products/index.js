@@ -24,7 +24,7 @@ import RedirectTimer from '../../components/RedirectTimer'
 
 import { Creators as ProductsActions } from '../../store/ducks/products'
 
-import { ga, initializeReactGA } from '../../services/analytics'
+import { ga } from '../../services/analytics'
 import {
   getEditSetup,
   getStoreId,
@@ -69,7 +69,7 @@ const Products = props => {
       name: history.location.pathname
     }
 
-    dispatch(ProductsActions.postLogRequest(payload))
+    dispatch(ProductsActions.sendLogRequest(payload))
 
     dispatch(ProductsActions.getProductsRequest(getStoreId(), categoryId))
   }, [categoryId, categoryName, dispatch, history.location.pathname])
