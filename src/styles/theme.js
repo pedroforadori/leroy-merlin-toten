@@ -23,6 +23,7 @@ export default {
   textYellow: '#F6D835',
   purple: '#AC488C',
 
+  darkGray02: 'rgba(102, 102, 102, 0.2)',
   darkGray04: 'rgba(102, 102, 102, 0.4)',
   shadowHover: 'rgba(0, 0, 0, 0.3)'
   // textSidebarDisabled: 'rgba(9, 30, 66, 0.5)',

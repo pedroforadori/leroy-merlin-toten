@@ -7,10 +7,6 @@ import { Creators as ProductActions } from '../ducks/products'
 
 import { getSelectedCategories } from '../../services/auth'
 
-// import stores from '../../mock/stores'
-// import categories from '../../mock/categories'
-// import departments from '../../mock/departments'
-
 export function* getStores() {
   try {
     const response = yield retry(10, 2000, storesApi.get)
@@ -20,29 +16,6 @@ export function* getStores() {
     console.log(err)
   }
 }
-
-// export function* getDepartments(action) {
-//   try {
-//     // const response = yield retry(10, 5000, productsApi.get, `/departments/${action.storeId}`)
-
-//     let response = { data: '' }
-
-//     yield put(
-//       ProductActions.getDepartmentsSuccess(
-//         response.data ||
-//           departments
-//             .filter(department => department.storeId === action.storeId)
-//             .map(department => ({
-//               ...department,
-//               label: department.name,
-//               value: department.name
-//             }))
-//       )
-//     )
-//   } catch (err) {
-//     console.log(err)
-//   }
-// }
 
 export function* getCategories() {
   try {
@@ -58,23 +31,6 @@ export function* getCategories() {
       )
     }
 
-    // let response = { data: '' }
-
-    // let categoriesMock = categories.filter(
-    //   category => category.departmentId === action.departmentId
-    // )
-
-    // let filteredCategories
-
-    // if (action.selectedCategories) {
-    //   const selectedCategories = getSelectedCategories()
-
-    //   filteredCategories = response.data.data.filter(category =>
-    //     selectedCategories.find(selectedCategory => selectedCategory.id === category._id)
-    //   )
-    // }
-
-    // yield put(ProductActions.getCategoriesSuccess(filteredCategories || response.data.data))
     yield put(ProductActions.getCategoriesSuccess(categories))
   } catch (err) {
     console.log(err)
@@ -95,9 +51,16 @@ export function* getProducts(action) {
   try {
     const qs = querystring.stringify(action.payload, { addQueryPrefix: true, skipNulls: true })
 
-    const response = yield retry(10, 2000, productsApi.get, `/products${qs}`)
+    const responseProducts = yield retry(10, 2000, productsApi.get, `/products${qs}`)
 
-    yield put(ProductActions.getProductsSuccess(response.data.data))
+    const responseCategory = yield retry(10, 2000, productsApi.post, '/categories', {
+      ids: [action.payload.categories]
+    })
+
+    const { brands = [], colors = [] } =
+      responseCategory.data.data.length && responseCategory.data.data[0]
+
+    yield put(ProductActions.getProductsSuccess(responseProducts.data.data, brands, colors))
   } catch (err) {
     console.log(err)
   }

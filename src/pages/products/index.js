@@ -47,9 +47,11 @@ const Products = props => {
   const products = useSelector(state => state.products.products)
   const brands = useSelector(state => state.products.brands)
   const colors = useSelector(state => state.products.colors)
+  const brandObj = useSelector(state => state.products.brandObj)
+  const colorObj = useSelector(state => state.products.colorObj)
 
-  const [brand, setBrand] = useState()
-  const [color, setColor] = useState()
+  // const [brand, setBrand] = useState()
+  // const [color, setColor] = useState()
 
   if (!getStoreId() || getEditSetup() === 'true') history.push('/setup')
 
@@ -82,30 +84,30 @@ const Products = props => {
     const payload = {
       store_id: getStoreId(),
       categories: categoryId,
-      brands: brand && brand.value,
-      colors: color && color.value
+      brands: brandObj && brandObj.value,
+      colors: colorObj && colorObj.value
     }
 
     console.log('payload', payload)
 
     dispatch(ProductsActions.getProductsRequest(payload))
-  }, [brand, categoryId, categoryName, color, dispatch, history.location.pathname])
+  }, [brandObj, categoryId, categoryName, colorObj, dispatch, history.location.pathname])
 
   const handleSelectBrand = selection => {
-    if (brand && selection.value === brand.value) return
+    if (brandObj && selection.value === brandObj.value) return
 
-    setBrand(selection)
+    dispatch(ProductsActions.setBrand(selection))
   }
 
   const handleSelectColor = selection => {
-    if (color && selection.value === color.value) return
+    if (colorObj && selection.value === colorObj.value) return
 
-    setColor(selection)
+    dispatch(ProductsActions.setColor(selection))
   }
 
   const handleClearFilters = () => {
-    setBrand()
-    setColor()
+    dispatch(ProductsActions.setBrand(null))
+    dispatch(ProductsActions.setColor(null))
 
     const payload = {
       store_id: getStoreId(),
@@ -132,6 +134,8 @@ const Products = props => {
   }
 
   console.log('brands', brands)
+  console.log('brandObj', brandObj)
+  console.log('colorObj', colorObj)
 
   return (
     <>
@@ -156,7 +160,7 @@ const Products = props => {
 
             <Select
               options={brands.map(brand => ({ label: brand[0], value: brand[0] }))}
-              defaultValue={brand}
+              defaultValue={brandObj}
               placeholder="Marca"
               isSearchable={false}
               styles={selectStyle}
@@ -174,7 +178,7 @@ const Products = props => {
 
             <Select
               options={colors.map(color => ({ label: color[0], value: color[0] }))}
-              defaultValue={color}
+              defaultValue={colorObj}
               placeholder="Cores"
               isSearchable={false}
               styles={selectStyle}
@@ -200,7 +204,12 @@ const Products = props => {
                   key={product._id}
                   onClick={() => handleClick(product._id, product.name, product.lm_leroy)}
                 >
-                  <ProductImg src={product.pictures[0].url || productPlaceholder} />
+                  <ProductImg
+                    src={
+                      (product.pictures && product.pictures[0] && product.pictures[0].url) ||
+                      productPlaceholder
+                    }
+                  />
                   <BoxDecription>
                     <DescriptionProduct>
                       <p>{product.name}</p>

@@ -9,8 +9,8 @@ export const Types = {
   GET_CATEGORIES_BY_ID_REQUEST: 'products/GET_CATEGORIES_BY_ID_REQUEST',
   GET_CATEGORIES_BY_ID_SUCCESS: 'products/GET_CATEGORIES_BY_ID_SUCCESS',
   SET_CATEGORIES: 'products/SET_CATEGORIES',
-  // GET_SELECTED_CATEGORIES: 'products/GET_SELECTED_CATEGORIES',
-  // SET_SELECTED_CATEGORIES: 'products/SET_SELECTED_CATEGORIES',
+  SET_BRAND: 'products/SET_BRAND',
+  SET_COLOR: 'products/SET_COLOR',
   GET_PRODUCTS_REQUEST: 'products/GET_PRODUCTS_REQUEST',
   GET_PRODUCTS_SUCCESS: 'products/GET_PRODUCTS_SUCCESS',
   GET_PRODUCT_DETAILS_REQUEST: 'products/GET_PRODUCT_DETAILS_REQUEST',
@@ -26,13 +26,13 @@ const INITIAL_STATE = {
   banner1Subtitle: 'Todas as opções de decoração',
   banner2Title: 'Renove sua Casa',
   banner2Subtitle: 'Com os melhores descontos e as melhores marcas',
-  // departmentId: null,
   stores: [],
-  // departments: [],
   categories: [],
   categoriesSelected: [],
   brands: [],
   colors: [],
+  brandObj: null,
+  colorObj: null,
   products: [],
   productDetails: {},
   loading: false,
@@ -67,29 +67,33 @@ export default function products(state = INITIAL_STATE, action) {
         categories: [],
         categoriesSelected: [],
         brands: [],
-        colors: []
+        colors: [],
+        brandObj: null,
+        colorObj: null
       }
     case Types.GET_CATEGORIES_BY_ID_SUCCESS:
       return { ...state, loadingCategories: false, categories: [], categoriesSelected: action.data }
     case Types.SET_CATEGORIES:
       return { ...state, categories: action.categories }
+    case Types.SET_BRAND:
+      return { ...state, brandObj: action.brandObj }
+    case Types.SET_COLOR:
+      return { ...state, colorObj: action.colorObj }
     case Types.GET_PRODUCTS_REQUEST:
       return {
         ...state,
         loading: true,
         products: [],
-        productDetails: {},
-        brands:
-          state.categoriesSelected.length &&
-          state.categoriesSelected.find(category => category._id === action.payload.categories)
-            .brands,
-        colors:
-          state.categoriesSelected.length &&
-          state.categoriesSelected.find(category => category._id === action.payload.categories)
-            .colors
+        productDetails: {}
       }
     case Types.GET_PRODUCTS_SUCCESS:
-      return { ...state, loading: false, products: action.data }
+      return {
+        ...state,
+        loading: false,
+        products: action.data,
+        brands: action.brands,
+        colors: action.colors
+      }
     case Types.GET_PRODUCT_DETAILS_REQUEST:
       return { ...state, loading: true, productDetails: {} }
     case Types.GET_PRODUCT_DETAILS_SUCCESS:
@@ -147,14 +151,24 @@ export const Creators = {
     type: Types.SET_CATEGORIES,
     categories
   }),
+  setBrand: brandObj => ({
+    type: Types.SET_BRAND,
+    brandObj
+  }),
+  setColor: colorObj => ({
+    type: Types.SET_COLOR,
+    colorObj
+  }),
 
   getProductsRequest: payload => ({
     type: Types.GET_PRODUCTS_REQUEST,
     payload
   }),
-  getProductsSuccess: data => ({
+  getProductsSuccess: (data, brands, colors) => ({
     type: Types.GET_PRODUCTS_SUCCESS,
-    data
+    data,
+    brands,
+    colors
   }),
 
   getProductDetailsRequest: (storeId, productId) => ({

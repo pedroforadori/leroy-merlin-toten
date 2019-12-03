@@ -80,9 +80,57 @@ export const ImageProduct = styled.img`
   width: 300px;
   height: auto;
   border-radius: 8px;
+  cursor: pointer;
 
   @media (orientation: portrait) {
     width: 267px;
+  }
+`
+
+export const ImageProductSmall = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 53px;
+  min-width: 79px;
+  border: 1px solid ${theme.darkGray02};
+  border-radius: 2px;
+  margin: 0 10px;
+  cursor: pointer;
+
+  img {
+    height: 47px;
+    width: 47px;
+
+    ${({ isSelected }) =>
+      isSelected &&
+      css`
+        opacity: 0.4;
+      `};
+  }
+
+  @media (orientation: portrait) {
+    width: 100%;
+    min-width: 69px;
+  }
+`
+
+export const OverflowWrapper = styled.div`
+  overflow: hidden;
+  height: 53px;
+  margin-top: 29px;
+`
+
+export const ImagesWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  overflow-x: scroll;
+
+  div:first-child,
+  div:last-child {
+    display: block;
+    min-height: 1px;
+    min-width: 1px;
   }
 `
 

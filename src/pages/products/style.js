@@ -60,7 +60,7 @@ export const Container = styled.div`
   grid-row-gap: 45px;
   grid-template-columns: repeat(auto-fit, 239px);
   justify-content: space-around;
-  padding: 0 47px 80px 47px;
+  padding: 0 47px 80px;
 `
 
 export const ProductCard = styled.div`

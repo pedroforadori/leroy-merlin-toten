@@ -26,6 +26,7 @@ const GlobalStyle = createGlobalStyle`
     color: ${theme.textDefault};
     background-color: ${theme.white};
     font-family: 'Leroy Merlin Sans';
+    overscroll-behavior-y: contain;
   }
 `
 

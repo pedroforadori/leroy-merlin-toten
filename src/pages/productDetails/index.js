@@ -12,7 +12,18 @@ import { Creators as ProductsActions } from '../../store/ducks/products'
 
 import { currencyDisplay } from '../../utils/currency'
 
-import { Container, WrapperCenter, Title, MainPage, ImageProduct, Details, Price } from './style'
+import {
+  Container,
+  WrapperCenter,
+  Title,
+  MainPage,
+  ImageProduct,
+  ImageProductSmall,
+  ImagesWrapper,
+  OverflowWrapper,
+  Details,
+  Price
+} from './style'
 
 import { ga } from '../../services/analytics'
 import { getEditSetup, getStoreId, getStoreName, getDepartmentName } from '../../services/auth'
@@ -81,9 +92,6 @@ const ProductDetails = () => {
     productDetails.name
   ])
 
-  // console.log('image', productDetails.pictures)
-  // console.log('image', productDetails.pictures && productDetails.pictures[imageIndex].url)
-
   return (
     <>
       <RedirectTimer />
@@ -110,24 +118,53 @@ const ProductDetails = () => {
               <p>{productDetails.description}</p>
             </Title>
 
-            <div style={{ cursor: 'pointer' }} onClick={() => setIsOpen(true)}>
+            <div>
               <ImageProduct
                 src={
                   (productDetails &&
                     productDetails.pictures &&
+                    productDetails.pictures.length &&
                     productDetails.pictures[imageIndex].url) ||
                   productPlaceholder
+                }
+                onClick={() =>
+                  productDetails &&
+                  productDetails.pictures &&
+                  productDetails.pictures.length &&
+                  setIsOpen(true)
                 }
               />
 
               <ImageViewer
-                images={productDetails.pictures.map(picture => picture.url)}
+                images={
+                  productDetails &&
+                  productDetails.pictures &&
+                  productDetails.pictures.length &&
+                  productDetails.pictures.map(picture => picture.url)
+                }
                 index={imageIndex}
                 isOpen={isOpen}
                 onCloseRequest={() => setIsOpen(false)}
-                onMovePrevRequest={setImageIndex}
                 onMoveNextRequest={setImageIndex}
+                onMovePrevRequest={setImageIndex}
               />
+
+              <OverflowWrapper>
+                <ImagesWrapper>
+                  <div />
+
+                  {productDetails.pictures.map((picture, index) => (
+                    <ImageProductSmall
+                      isSelected={imageIndex === index}
+                      onClick={() => setImageIndex(index)}
+                    >
+                      <img src={picture.url} alt={picture.alt} />
+                    </ImageProductSmall>
+                  ))}
+
+                  <div />
+                </ImagesWrapper>
+              </OverflowWrapper>
             </div>
 
             {productDetails.prices && productDetails.prices.price ? (
