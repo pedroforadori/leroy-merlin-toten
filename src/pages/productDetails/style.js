@@ -92,6 +92,7 @@ export const ImageProductSmall = styled.div`
   justify-content: center;
   align-items: center;
   height: 53px;
+  max-width: 79px;
   min-width: 79px;
   border: 1px solid ${theme.darkGray02};
   border-radius: 2px;
@@ -111,6 +112,7 @@ export const ImageProductSmall = styled.div`
 
   @media (orientation: portrait) {
     width: 100%;
+    max-width: 69px;
     min-width: 69px;
   }
 `
