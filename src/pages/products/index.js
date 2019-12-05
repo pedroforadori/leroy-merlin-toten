@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 import Select from 'react-select'
@@ -7,6 +7,7 @@ import {
   selectStyle,
   selectTheme,
   Container,
+  Title,
   ProductCard,
   DescriptionProduct,
   IdProduct,
@@ -24,8 +25,6 @@ import ProductImg from '../../components/ProductImg'
 import GoBackLink from '../../components/GoBackLink'
 import LoadingFill from '../../components/LoadingFill'
 import RedirectTimer from '../../components/RedirectTimer'
-
-import CarouselTitle from '../../components/CarouselTitle'
 
 import { Creators as ProductsActions } from '../../store/ducks/products'
 
@@ -50,47 +49,44 @@ const Products = props => {
   const brandObj = useSelector(state => state.products.brandObj)
   const colorObj = useSelector(state => state.products.colorObj)
 
-  // const [brand, setBrand] = useState()
-  // const [color, setColor] = useState()
-
   if (!getStoreId() || getEditSetup() === 'true') history.push('/setup')
 
   const dispatch = useDispatch()
 
   useEffect(() => {
-    ga.pageview(`categorias/${categoryName}`)
+    if (getStoreId()) {
+      // ga.pageview(`categorias/${categoryName}`)
 
-    ga.set({
-      categoryId,
-      dimension1: categoryName, // ga('set', 'dimension1', dimensionValue)
-      storeId: getStoreId(),
-      dimension3: getStoreName(), // ga('set', 'dimension3', dimensionValue);
-      dimension4: getDepartmentName() // ga('set', 'dimension4', dimensionValue);
-    })
+      // ga.set({
+      //   categoryId,
+      //   dimension1: categoryName,
+      //   storeId: getStoreId(),
+      //   dimension3: getStoreName(),
+      //   dimension4: getDepartmentName()
+      // })
 
-    const logPayload = {
-      device_id: `${getStoreId()} - ${getDepartmentName()}`,
-      departament: getDepartmentName(),
-      category: {
-        id: categoryId,
-        name: categoryName
-      },
-      store_id: getStoreId(),
-      name: history.location.pathname
+      const logPayload = {
+        device_id: `${getStoreId()} - ${getDepartmentName()}`,
+        departament: getDepartmentName(),
+        category: {
+          id: categoryId,
+          name: categoryName
+        },
+        store_id: getStoreId(),
+        name: history.location.pathname
+      }
+
+      dispatch(ProductsActions.sendLogRequest(logPayload))
+
+      const payload = {
+        store_id: getStoreId(),
+        categories: categoryId,
+        brands: brandObj && brandObj.value,
+        colors: colorObj && colorObj.value
+      }
+
+      dispatch(ProductsActions.getProductsRequest(payload))
     }
-
-    dispatch(ProductsActions.sendLogRequest(logPayload))
-
-    const payload = {
-      store_id: getStoreId(),
-      categories: categoryId,
-      brands: brandObj && brandObj.value,
-      colors: colorObj && colorObj.value
-    }
-
-    console.log('payload', payload)
-
-    dispatch(ProductsActions.getProductsRequest(payload))
   }, [brandObj, categoryId, categoryName, colorObj, dispatch, history.location.pathname])
 
   const handleSelectBrand = selection => {
@@ -133,10 +129,6 @@ const Products = props => {
     history.push(`/categories/${categoryId}/${categoryName}/product/${productId}`)
   }
 
-  console.log('brands', brands)
-  console.log('brandObj', brandObj)
-  console.log('colorObj', colorObj)
-
   return (
     <>
       <RedirectTimer />
@@ -149,7 +141,7 @@ const Products = props => {
         <>
           <Header />
 
-          {getSelectedCategories().split(',').length !== 1 && (
+          {getSelectedCategories() && getSelectedCategories().split(',').length !== 1 && (
             <GoBackLink>{getDepartmentName()}</GoBackLink>
           )}
 
@@ -195,7 +187,7 @@ const Products = props => {
             <p onClick={handleClearFilters}>Limpar Filtros</p>
           </SelectWrapper>
 
-          <CarouselTitle text={categoryName} />
+          <Title text={categoryName} />
 
           {products.length ? (
             <Container>
@@ -238,7 +230,6 @@ const Products = props => {
                     ) : (
                       ''
                     )}
-                    {/* <PortionProduct>12x de R$ 3,15 sem juros</PortionProduct> */}
                   </BoxDecription>
                 </ProductCard>
               ))}

@@ -14,6 +14,8 @@ export const LOCAL_KEY = '@leroy-kiosk'
 
 export const ACCESS_TOKEN = '@leroy-kiosk/token'
 
+export const EXPIRES_AT = '@leroy-kiosk/expires_at'
+
 export const EDIT_SETUP = '@leroy-kiosk/setup'
 
 export const getLocalObj = key => JSON.parse(localStorage.getItem(key)) || {}
@@ -22,11 +24,9 @@ export const getToken = () => localStorage.getItem(ACCESS_TOKEN)
 
 export const setToken = value => localStorage.setItem(ACCESS_TOKEN, value)
 
-export const getTokenExpirationDate = () => getLocalObj(LOCAL_KEY).accessTokenExpiresAt
+export const getTokenExpirationDate = () => localStorage.getItem(EXPIRES_AT)
 
-export const getRefreshToken = () => getLocalObj(LOCAL_KEY).refresh_token
-
-export const getRefreshTokenExpirationDate = () => getLocalObj(LOCAL_KEY).refreshTokenExpiresAt
+export const setTokenExpirationDate = value => localStorage.setItem(EXPIRES_AT, value)
 
 export const getEditSetup = () => localStorage.getItem(EDIT_SETUP)
 
@@ -46,14 +46,9 @@ export const getBanner2Title = () => getLocalObj(LOCAL_KEY).banner2Title
 
 export const getBanner2Subtitle = () => getLocalObj(LOCAL_KEY).banner2Subtitle
 
-// export const getDepartmentId = () => getLocalObj(LOCAL_KEY).departmentId
-
 export const getSelectedCategories = () => getLocalObj(LOCAL_KEY).selectedCategories
 
 export const isAccessTokenValid = () => moment(getTokenExpirationDate()).diff(new Date()) > 0
-
-export const isRefreshTokenValid = () =>
-  moment(getRefreshTokenExpirationDate()).diff(new Date()) > 0
 
 export const persistData = data => {
   localStorage.setItem(LOCAL_KEY, JSON.stringify(data))
@@ -65,22 +60,23 @@ export const excludeData = () => {
 }
 
 export const setAuthorization = async config => {
-  let localToken = getToken()
+  const localToken = getToken()
+  const isValid = isAccessTokenValid()
 
-  // console.log('token localStorage', !!localToken)
-
-  if (localToken) {
+  if (localToken && isValid) {
     config.headers.Authorization = `Bearer ${localToken}`
   } else {
     const response = await oauthApi.post('', form)
 
-    const token = response.data.access_token
+    const { access_token, expires_in } = response.data
 
-    // console.log('token response', token)
+    const now = new Date()
+    const expirationDate = new Date(now.getTime() + expires_in * 1000)
 
-    config.headers.Authorization = `Bearer ${token}`
+    setToken(access_token)
+    setTokenExpirationDate(expirationDate)
 
-    setToken(token)
+    config.headers.Authorization = `Bearer ${access_token}`
   }
 
   return config

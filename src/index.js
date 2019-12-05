@@ -7,9 +7,9 @@ import * as serviceWorker from './serviceWorker'
 import './config/reactotron'
 import store from './store'
 import App from './App'
-import { initializeReactGA } from './services/analytics'
+// import { initializeReactGA } from './services/analytics'
 
-initializeReactGA()
+// initializeReactGA()
 
 ReactDOM.render(
   <Provider store={store}>

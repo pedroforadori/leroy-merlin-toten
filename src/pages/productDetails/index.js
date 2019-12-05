@@ -50,18 +50,18 @@ const ProductDetails = () => {
   }, [dispatch, productId])
 
   useEffect(() => {
-    if (productDetails.lm_leroy) {
-      ga.pageview(`produtos/${productDetails.name}`)
+    if (getStoreId() && productDetails.lm_leroy) {
+      // ga.pageview(`produtos/${productDetails.name}`)
 
-      ga.set({
-        productId: productDetails.lm_leroy,
-        dimension2: productDetails.name, // ga('set', 'dimension2', dimensionValue);
-        categoryId,
-        dimension1: categoryName,
-        storeId: getStoreId(),
-        dimension3: getStoreName(),
-        dimension4: getDepartmentName()
-      })
+      // ga.set({
+      //   productId: productDetails.lm_leroy,
+      //   dimension2: productDetails.name,
+      //   categoryId,
+      //   dimension1: categoryName,
+      //   storeId: getStoreId(),
+      //   dimension3: getStoreName(),
+      //   dimension4: getDepartmentName()
+      // })
 
       const payload = {
         device_id: `${getStoreId()} - ${getDepartmentName()}`,

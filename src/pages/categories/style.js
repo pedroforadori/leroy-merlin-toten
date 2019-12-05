@@ -1,26 +1,6 @@
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 import theme from '../../styles/theme'
-
-// export const MainImage = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   background-image: url(${({ src }) => src});
-//   background-position: center;
-//   background-size: cover;
-//   height: 77px; /* 158px; */
-//   max-width: 100%;
-
-//   div {
-//     z-index: 1;
-//     font-size: 64px;
-//     line-height: 77px;
-//     font-weight: ${theme.fontSemibold};
-//     color: ${theme.primaryDefault};
-//     text-align: center;
-//   }
-// `
 
 export const Container = styled.div`
   display: grid;
@@ -76,14 +56,6 @@ export const Category = styled.div`
 `
 
 export const WrapperCenter = styled.div`
-  /* ${({ loadingCategories }) =>
-    loadingCategories
-      ? css`
-          height: calc(100% - 107px);
-        `
-      : css`
-          height: 100%;
-        `}; */
   height: 100%;
   display: flex;
   justify-content: center;

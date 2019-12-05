@@ -10,7 +10,6 @@ export default function RedirectTimer() {
 
   const startTimeout = useCallback(() => {
     clearTimeout(timer.current)
-    // console.log('timeout started')
     timer.current = setTimeout(redirectHome, 1 * 60 * 1000)
   }, [redirectHome])
 
@@ -24,7 +23,6 @@ export default function RedirectTimer() {
     document.addEventListener('change', startTimeout)
     document.addEventListener('keypress', startTimeout)
     document.addEventListener('touchstart', startTimeout)
-    // console.log('addEventListener startTimeout')
 
     return () => {
       document.removeEventListener('click', startTimeout)
@@ -33,7 +31,6 @@ export default function RedirectTimer() {
       document.removeEventListener('keypress', startTimeout)
       document.removeEventListener('touchstart', startTimeout)
       clearTimeout(timer.current)
-      // console.log('removeEventListener startTimeout')
     }
   }, [startTimeout, timer])
 

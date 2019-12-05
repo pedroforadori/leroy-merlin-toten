@@ -63,6 +63,15 @@ export const Container = styled.div`
   padding: 0 47px 80px;
 `
 
+export const Title = styled.h2`
+  font-style: normal;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 38px;
+  color: ${theme.textDefault};
+  margin: 47px auto 26px 3.85%;
+`
+
 export const ProductCard = styled.div`
   display: flex;
   flex-direction: column;

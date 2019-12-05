@@ -50,18 +50,10 @@ import {
 const Setup = () => {
   let history = useHistory()
 
-  // const storeId = useSelector(state => state.products.storeId)
-
   const stores = useSelector(state => state.products.stores)
-  // const departments = useSelector(state => state.products.departments)
   const categories = useSelector(state => state.products.categories)
   const loading = useSelector(state => state.products.loading)
   const loadingCategories = useSelector(state => state.products.loadingCategories)
-  // const departmentName = useSelector(state => state.products.departmentName)
-  // const banner1Title = useSelector(state => state.products.banner1Title)
-  // const banner1Subtitle = useSelector(state => state.products.banner1Subtitle)
-  // const banner2Title = useSelector(state => state.products.banner2Title)
-  // const banner2Subtitle = useSelector(state => state.products.banner2Subtitle)
 
   const [section, setSection] = useState('categories')
   const [storeId, setStoreId] = useState(getStoreId())
@@ -76,16 +68,11 @@ const Setup = () => {
     getBanner2Subtitle() || 'Com os melhores descontos e as melhores marcas'
   )
   const [selectAll, toggleSelectAll] = useState(false)
-  // const [filteredCategories, setFilteredCategories] = useState([])
-  // const [departmentName, setDepartmentName] = useState('')
 
   const dispatch = useDispatch()
 
   const handleCategoryCheck = id => {
     let newCategories = [...categories]
-
-    // newCategories[index] = { ...categories[index], isSelected: !categories[index].isSelected }
-    // setFilteredCategories(filteredCategories.map(category => category))
 
     let category = categories.find(category => category._id === id)
     category.isSelected = !category.isSelected
@@ -103,18 +90,12 @@ const Setup = () => {
   const handleSelectStore = selection => {
     if (selection.store_id === storeId) return
 
-    // console.log('selection name', selection.name)
-
     setStoreId(selection.store_id)
     setStoreName(selection.name)
-    // dispatch(ProductsActions.setStoreId(selection.store_id))
-    // setDepartment({})
-    // toggleSelectAll(false)
-    // dispatch(ProductsActions.getDepartmentsRequest(selection.id))
   }
 
   const handleFilterCategories = selection => {
-    let filteredCategories // = categories
+    let filteredCategories
 
     if (selection) {
       filteredCategories = categories.map(category => {
@@ -122,39 +103,13 @@ const Setup = () => {
           ? { ...category, hidden: false }
           : { ...category, hidden: true }
       })
-
-      // const item = categories.find(category => category._id === selection._id)
-      // item.visible = true
-
-      // const categoryIndex = categories.findIndex(category => category._id === selection._id)
-      // filteredCategories[categoryIndex] = { ...filteredCategories[categoryIndex], visible: true }
-
-      // array = categories.filter(category => category._id === selection._id)
     } else {
       filteredCategories = categories.map(category => ({ ...category, hidden: false }))
     }
 
-    // console.log(filteredCategories)
-
     dispatch(ProductsActions.setCategories(filteredCategories))
-
-    // setFilteredCategories(array)
-    // if (selection.id === department.id) return
-    // setDepartment(selection)
-    // toggleSelectAll(false)
-    // dispatch(ProductsActions.getCategoriesRequest())
   }
-
-  // const setDefaultStore = () => {
-  //   const store = stores.length && stores.find(store => store.store_id === getStoreId())
-
-  //   // return { _id: store._id, name: store.name }
-  //   return { name: 'Loja Tietê', _id: '5de00291fb2cee15640298c2' }
-  // }
-
   const handleSubmit = () => {
-    // initializeReactGA(storeId, storeName, departmentName)
-
     persistData({
       storeId,
       storeName,
@@ -167,9 +122,6 @@ const Setup = () => {
         .filter(category => category.isSelected)
         .map(category => category._id)
         .join(',')
-      // selectedCategories: categories
-      //   .filter(category => category.isSelected)
-      //   .map(category => ({ id: category._id, name: category.name, image: category.picture }))
     })
 
     setEditSetup('false')
@@ -238,16 +190,13 @@ const Setup = () => {
                 options={categories}
                 getOptionLabel={({ name }) => name}
                 getOptionValue={({ _id }) => _id}
-                // value={categories.filter(({ _id }) => category._id === ''._id)}
                 placeholder="Buscar Categoria"
                 isSearchable
                 isClearable
                 isLoading={loadingCategories}
                 loadingMessage={() => 'Carregando categorias...'}
-                // isDisabled={!categories.length}
                 styles={selectStyle}
                 onChange={handleFilterCategories}
-                // onInputChange={handleFilterCategories}
                 theme={defaultTheme => ({
                   ...defaultTheme,
                   fontSize: 18,
@@ -355,7 +304,6 @@ const Setup = () => {
         </Content>
 
         {!loading && !!categories.length && (
-          // <ButtonWrapper>
           <Button
             fixed
             disabled={
@@ -373,7 +321,6 @@ const Setup = () => {
           >
             FINALIZAR
           </Button>
-          // </ButtonWrapper>
         )}
       </Container>
       <Footer />

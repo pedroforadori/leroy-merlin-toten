@@ -4,15 +4,8 @@ const { REACT_APP_TRACKING_CODE } = process.env
 
 export let ga = null
 
-export const initializeReactGA = (storeId, storeName, departmentName) => {
-  ReactGA.initialize(REACT_APP_TRACKING_CODE, {
-    debug: true
-    // gaOptions: {
-    //   storeId,
-    //   storeName,
-    //   departmentName
-    // }
-  })
+export const initializeReactGA = () => {
+  ReactGA.initialize(REACT_APP_TRACKING_CODE, { debug: true })
 
   ga = ReactGA
 }

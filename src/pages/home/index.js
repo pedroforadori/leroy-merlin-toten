@@ -41,8 +41,6 @@ const Home = () => {
     }
   }, [handleClick])
 
-  console.log('@leroy-kiosk', JSON.parse(localStorage.getItem('@leroy-kiosk')))
-
   return (
     <Carousel auto loop widgets={[Dots]}>
       <Image src={[homeLandscape, homePortrait]}>

@@ -11,9 +11,9 @@ export default function Header(props) {
   let history = useHistory()
 
   const handleRedirect = () => {
-    setEditSetup('true')
+    // setEditSetup('true')
 
-    history.push('/setup')
+    history.push('/home')
   }
 
   return (

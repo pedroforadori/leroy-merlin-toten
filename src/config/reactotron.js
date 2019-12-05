@@ -4,8 +4,6 @@ import sagaPlugin from 'reactotron-redux-saga'
 
 const { NODE_ENV } = process.env
 
-console.log(NODE_ENV)
-
 if (NODE_ENV === 'development') {
   const tron = Reactotron.configure()
     .use(reactotronRedux())

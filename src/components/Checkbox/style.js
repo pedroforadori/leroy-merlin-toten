@@ -36,8 +36,4 @@ export const StyledCheckbox = styled.div`
     top: 0;
     visibility: ${({ checked }) => (checked ? 'visible' : 'hidden')};
   }
-
-  /* ${HiddenCheckbox}:focus + & {
-    box-shadow: 0 0 0 1px ${theme.primaryDefault};
-  } */
 `

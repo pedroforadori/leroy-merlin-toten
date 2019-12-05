@@ -28,7 +28,7 @@ const Categories = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    const ids = getSelectedCategories().split(',')
+    const ids = getSelectedCategories() && getSelectedCategories().split(',')
     const payload = { ids }
 
     dispatch(ProductsActions.getCategoriesByIdRequest(payload))
@@ -47,17 +47,11 @@ const Categories = () => {
     history.push(`/categories/${id}/${name}`)
   }
 
-  // console.log('categories selected', categories)
-
   return (
     <>
       <RedirectTimer />
 
       <div style={{ height: 1 }} />
-
-      {/* <MainImage>
-        <div>{getDepartmentName()}</div>
-      </MainImage> */}
 
       {loadingCategories ? (
         <LoadingFill />

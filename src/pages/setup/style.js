@@ -9,14 +9,10 @@ export const selectStyle = {
     border: `1px solid ${state.isDisabled ? theme.gray : theme.primaryDefault} !important`,
     borderRadius: 8,
     boxShadow: 'none'
-    // boxShadow: state.isFocused || state.isSelected ? `0 0 0 1px ${theme.primaryDefault}` : ''
-    // color: state.isSelected ? 'red' : 'blue'
   }),
   container: (provided, state) => ({
     ...provided,
     fontSize: 18
-    // border: `1px solid ${theme.primaryDefault}`
-    // color: state.isSelected ? 'red' : 'blue'
   }),
   option: (provided, state) => ({
     ...provided,
